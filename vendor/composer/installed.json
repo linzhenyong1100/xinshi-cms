@@ -391,6 +391,73 @@
         "description": "Drupal code generator"
     },
     {
+        "name": "commerceguys/addressing",
+        "version": "v1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/commerceguys/addressing.git",
+            "reference": "2450ca97631042faf786855db206a2e48fb7dbb7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/commerceguys/addressing/zipball/2450ca97631042faf786855db206a2e48fb7dbb7",
+            "reference": "2450ca97631042faf786855db206a2e48fb7dbb7",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "require": {
+            "doctrine/collections": "~1.0",
+            "php": ">=7.0.8"
+        },
+        "require-dev": {
+            "mikey179/vfsstream": "1.*",
+            "phpunit/phpunit": "^6.0",
+            "squizlabs/php_codesniffer": "2.*",
+            "symfony/validator": "^3.4"
+        },
+        "suggest": {
+            "symfony/validator": "to validate addresses"
+        },
+        "time": "2020-11-29T18:48:07+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "CommerceGuys\\Addressing\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Bojan Zivanovic"
+            },
+            {
+                "name": "Damien Tournoud"
+            }
+        ],
+        "description": "Addressing library powered by CLDR and Google's address data.",
+        "keywords": [
+            "address",
+            "internationalization",
+            "localization",
+            "postal"
+        ]
+    },
+    {
         "name": "composer/installers",
         "version": "v1.9.0",
         "version_normalized": "1.9.0.0",
@@ -2672,6 +2739,76 @@
         }
     },
     {
+        "name": "drupal/address",
+        "version": "1.9.0",
+        "version_normalized": "1.9.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/address.git",
+            "reference": "8.x-1.9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/address-8.x-1.9.zip",
+            "reference": "8.x-1.9",
+            "shasum": "c7e6406d88c6d6be9e8fe0091040d67012bdbf05"
+        },
+        "require": {
+            "commerceguys/addressing": "^1.0.7",
+            "drupal/core": "^8.8 || ^9"
+        },
+        "require-dev": {
+            "drupal/token": "^1.0"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "drupal": {
+                "version": "8.x-1.9",
+                "datestamp": "1604422821",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "bojanz",
+                "homepage": "https://www.drupal.org/user/86106"
+            },
+            {
+                "name": "dww",
+                "homepage": "https://www.drupal.org/user/46549"
+            },
+            {
+                "name": "googletorp",
+                "homepage": "https://www.drupal.org/user/386230"
+            },
+            {
+                "name": "jsacksick",
+                "homepage": "https://www.drupal.org/user/972218"
+            },
+            {
+                "name": "mglaman",
+                "homepage": "https://www.drupal.org/user/2416470"
+            },
+            {
+                "name": "rszrama",
+                "homepage": "https://www.drupal.org/user/49344"
+            }
+        ],
+        "description": "Provides functionality for storing, validating and displaying international postal addresses.",
+        "homepage": "http://drupal.org/project/address",
+        "support": {
+            "source": "https://git.drupalcode.org/project/address"
+        }
+    },
+    {
         "name": "drupal/autosave_form",
         "version": "1.2.0",
         "version_normalized": "1.2.0.0",
@@ -2851,6 +2988,137 @@
         "support": {
             "source": "https://git.drupalcode.org/project/blazy",
             "issues": "https://drupal.org/project/issues/blazy"
+        }
+    },
+    {
+        "name": "drupal/config_filter",
+        "version": "2.2.0",
+        "version_normalized": "2.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/config_filter.git",
+            "reference": "8.x-2.2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/config_filter-8.x-2.2.zip",
+            "reference": "8.x-2.2",
+            "shasum": "dc6bc8107255066507cfc1d6766e664c3673cda0"
+        },
+        "require": {
+            "drupal/core": "^8.8 || ^9"
+        },
+        "conflict": {
+            "drush/drush": "<10"
+        },
+        "suggest": {
+            "drupal/config_split": "Split site configuration for different environments."
+        },
+        "type": "drupal-module",
+        "extra": {
+            "drupal": {
+                "version": "8.x-2.2",
+                "datestamp": "1601934694",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Fabian Bircher",
+                "homepage": "https://www.drupal.org/u/bircher",
+                "email": "opensource@fabianbircher.com",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Nuvole Web",
+                "homepage": "http://nuvole.org",
+                "email": "info@nuvole.org",
+                "role": "Maintainer"
+            },
+            {
+                "name": "pescetti",
+                "homepage": "https://www.drupal.org/user/436244"
+            }
+        ],
+        "description": "Config Filter allows other modules to interact with a ConfigStorage through filter plugins.",
+        "homepage": "https://www.drupal.org/project/config_filter",
+        "keywords": [
+            "Drupal",
+            "configuration",
+            "configuration management"
+        ],
+        "support": {
+            "source": "https://git.drupalcode.org/project/config_filter",
+            "issues": "https://www.drupal.org/project/issues/config_filter",
+            "slack": "https://drupal.slack.com/archives/C45342CDD"
+        }
+    },
+    {
+        "name": "drupal/config_ignore",
+        "version": "2.3.0",
+        "version_normalized": "2.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/config_ignore.git",
+            "reference": "8.x-2.3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/config_ignore-8.x-2.3.zip",
+            "reference": "8.x-2.3",
+            "shasum": "2e1f07a455275fb6637909921a8915646601fc00"
+        },
+        "require": {
+            "drupal/config_filter": "^1 || ^2",
+            "drupal/core": "^8 || ^9"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "drupal": {
+                "version": "8.x-2.3",
+                "datestamp": "1608306489",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Tommy Lynge Jørgensen",
+                "homepage": "https://www.drupal.org/u/tlyngej",
+                "email": "tlyngej@gmail.com",
+                "role": "Maintainer"
+            },
+            {
+                "name": "Fabian Bircher",
+                "homepage": "https://www.drupal.org/u/bircher",
+                "role": "Maintainer"
+            },
+            {
+                "name": "tlyngej",
+                "homepage": "https://www.drupal.org/user/413139"
+            }
+        ],
+        "description": "Ignore certain configuration during import.",
+        "homepage": "http://drupal.org/project/config_ignore",
+        "support": {
+            "source": "https://git.drupalcode.org/project/config_ignore",
+            "issues": "http://drupal.org/project/config_ignore",
+            "irc": "irc://irc.freenode.org/drupal-contribute"
         }
     },
     {
@@ -3252,10 +3520,10 @@
                 }
             },
             "patches_applied": {
-                "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2020-02-07/2869592-remove-update-warning-34.patch",
-                "2815221 - Add quickedit to the latest-revision route": "https://www.drupal.org/files/issues/2019-11-27/2815221-125.patch",
+                "2869592 - Disabled update module shouldn't produce a status report warning": "https://www.drupal.org/files/issues/2869592-remove-update-warning-7.patch",
                 "[subprofile support] 1356276 - Allow profiles to define a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2019-11-05/1356276-531-8.8.x-4.patch",
-                "[subprofile support] 2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2018-07-09/2914389-8-do-not-test.patch"
+                "[subprofile support] 2914389 - Allow profiles to exclude dependencies of their parent": "https://www.drupal.org/files/issues/2018-07-09/2914389-8-do-not-test.patch",
+                "2815221 - Add quickedit to the latest-revision route": "https://www.drupal.org/files/issues/2019-11-27/2815221-125.patch"
             }
         },
         "installation-source": "dist",
@@ -6519,6 +6787,56 @@
             "source": "https://cgit.drupalcode.org/pathauto",
             "issues": "https://www.drupal.org/project/issues/pathauto",
             "documentation": "https://www.drupal.org/docs/8/modules/pathauto"
+        }
+    },
+    {
+        "name": "drupal/range",
+        "version": "1.3.0",
+        "version_normalized": "1.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/range.git",
+            "reference": "8.x-1.3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/range-8.x-1.3.zip",
+            "reference": "8.x-1.3",
+            "shasum": "115f0ccf2812d180986363a026e0e2cc04e013f5"
+        },
+        "require": {
+            "drupal/core": "^8.9 || ^9"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "drupal": {
+                "version": "8.x-1.3",
+                "datestamp": "1605777357",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "Taran2L",
+                "homepage": "https://www.drupal.org/user/473438"
+            },
+            {
+                "name": "ribel",
+                "homepage": "https://www.drupal.org/user/1449610"
+            }
+        ],
+        "description": "Defines a numeric range field type.",
+        "homepage": "https://www.drupal.org/project/range",
+        "support": {
+            "source": "https://git.drupalcode.org/project/range"
         }
     },
     {
