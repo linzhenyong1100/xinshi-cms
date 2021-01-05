@@ -1,0 +1,9 @@
+footable_breakpoint.collection:
+  route_name: footable_breakpoint.collection
+  title: Breakpoints
+  base_route: footable_breakpoint.collection
+
+footable.settings:
+  route_name: footable.settings
+  title: Settings
+  base_route: footable_breakpoint.collection
