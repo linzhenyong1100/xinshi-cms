@@ -103,6 +103,7 @@ class ComposerStaticInit73cbcc18c7ade12b47b0cb4c4b2b2ff8
         'R' => 
         array (
             'Robo\\' => 5,
+            'Relaxed\\LCA\\' => 12,
         ),
         'P' => 
         array (
@@ -145,6 +146,11 @@ class ComposerStaticInit73cbcc18c7ade12b47b0cb4c4b2b2ff8
             'GuzzleHttp\\' => 11,
             'Grasmash\\YamlExpander\\' => 22,
             'Grasmash\\Expander\\' => 18,
+            'Graphp\\Algorithms\\' => 18,
+        ),
+        'F' => 
+        array (
+            'Fhaculty\\Graph\\' => 15,
         ),
         'E' => 
         array (
@@ -333,6 +339,10 @@ class ComposerStaticInit73cbcc18c7ade12b47b0cb4c4b2b2ff8
         array (
             0 => __DIR__ . '/..' . '/consolidation/robo/src',
         ),
+        'Relaxed\\LCA\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/relaxedws/lca/src',
+        ),
         'Psy\\' => 
         array (
             0 => __DIR__ . '/..' . '/psy/psysh/src',
@@ -428,6 +438,14 @@ class ComposerStaticInit73cbcc18c7ade12b47b0cb4c4b2b2ff8
         'Grasmash\\Expander\\' => 
         array (
             0 => __DIR__ . '/..' . '/grasmash/expander/src',
+        ),
+        'Graphp\\Algorithms\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/graphp/algorithms/src',
+        ),
+        'Fhaculty\\Graph\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/clue/graph/src',
         ),
         'Egulias\\EmailValidator\\' => 
         array (

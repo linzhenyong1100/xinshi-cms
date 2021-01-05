@@ -1,0 +1,13 @@
+name: FooTable
+description: 'Provides Views integration for the jQuery FooTable plugin.'
+package: Views
+# core: 8.x
+dependencies:
+  - views
+type: module
+
+# Information added by Drupal.org packaging script on 2016-09-25
+version: '8.x-1.0-alpha2'
+core: '8.x'
+project: 'footable'
+datestamp: 1474832640
