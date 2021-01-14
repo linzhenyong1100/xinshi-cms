@@ -4,32 +4,15 @@ namespace Drupal\jsonapi_extras\Normalizer;
 
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Field\FieldItemInterface;
-use Drupal\jsonapi\Normalizer\NormalizerBase;
 use Drupal\jsonapi\Normalizer\FieldItemNormalizer as JsonapiFieldItemNormalizer;
-use Drupal\jsonapi\Normalizer\Value\FieldItemNormalizerValue;
+use Drupal\jsonapi\Normalizer\Value\CacheableNormalization;
 use Drupal\jsonapi_extras\Plugin\ResourceFieldEnhancerManager;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\SerializerInterface;
+use Shaper\Util\Context;
 
 /**
- * Converts the Drupal field structure to a JSON API array structure.
+ * Converts the Drupal field structure to a JSON:API array structure.
  */
-class FieldItemNormalizer extends NormalizerBase implements DenormalizerInterface {
-
-  /**
-   * The interface or class that this Normalizer supports.
-   *
-   * @var string
-   */
-  protected $supportedInterfaceOrClass = FieldItemInterface::class;
-
-  /**
-   * The JSON API field normalizer entity.
-   *
-   * @var \Drupal\jsonapi\Normalizer\FieldItemNormalizer
-   */
-  protected $subject;
+class FieldItemNormalizer extends JsonApiNormalizerDecoratorBase {
 
   /**
    * The entity type manager.
@@ -48,15 +31,15 @@ class FieldItemNormalizer extends NormalizerBase implements DenormalizerInterfac
   /**
    * Constructs a new FieldItemNormalizer.
    *
-   * @param \Drupal\jsonapi\Normalizer\FieldItemNormalizer $subject
-   *   The JSON API field normalizer entity.
+   * @param \Drupal\jsonapi\Normalizer\FieldItemNormalizer $inner
+   *   The JSON:API field normalizer entity.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
    * @param \Drupal\jsonapi_extras\Plugin\ResourceFieldEnhancerManager $enhancer_manager
    *   The field enhancer manager.
    */
-  public function __construct(JsonapiFieldItemNormalizer $subject, EntityTypeManagerInterface $entity_type_manager, ResourceFieldEnhancerManager $enhancer_manager) {
-    $this->subject = $subject;
+  public function __construct(JsonapiFieldItemNormalizer $inner, EntityTypeManagerInterface $entity_type_manager, ResourceFieldEnhancerManager $enhancer_manager) {
+    parent::__construct($inner);
     $this->entityTypeManager = $entity_type_manager;
     $this->enhancerManager = $enhancer_manager;
   }
@@ -66,34 +49,22 @@ class FieldItemNormalizer extends NormalizerBase implements DenormalizerInterfac
    */
   public function normalize($object, $format = NULL, array $context = []) {
     // First get the regular output.
-    $normalized_output = $this->subject->normalize($object, $format, $context);
+    $normalized_output = parent::normalize($object, $format, $context);
     // Then detect if there is any enhancer to be applied here.
     /** @var \Drupal\jsonapi_extras\ResourceType\ConfigurableResourceType $resource_type */
-    $resource_type = $context['resource_type'];
+    $resource_type = $context['resource_object']->getResourceType();
     $enhancer = $resource_type->getFieldEnhancer($object->getParent()->getName());
     if (!$enhancer) {
       return $normalized_output;
     }
     // Apply any enhancements necessary.
-    $processed = $enhancer->undoTransform($normalized_output->rasterizeValue());
-    $normalized_output = new FieldItemNormalizerValue([$processed], new CacheableMetadata());
+    $context['field_item_object'] = $object;
+    $processed = $enhancer->undoTransform($normalized_output->getNormalization(), new Context($context));
+    $cacheability = CacheableMetadata::createFromObject($normalized_output)
+      ->addCacheTags(['config:jsonapi_resource_config_list']);
+    $normalized_output = new CacheableNormalization($cacheability, $processed);
 
     return $normalized_output;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function denormalize($data, $class, $format = NULL, array $context = []) {
-    return $this->subject->denormalize($data, $class, $format, $context);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setSerializer(SerializerInterface $serializer) {
-    parent::setSerializer($serializer);
-    $this->subject->setSerializer($serializer);
   }
 
 }
