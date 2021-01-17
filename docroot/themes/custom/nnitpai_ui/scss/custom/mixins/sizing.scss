@@ -1,0 +1,9 @@
+@mixin width($width, $colum) {
+  @if $width > 1 {
+    @include width($width - 1, $colum);
+  }
+
+  .w-#{$width}\/#{$colum}{
+    width: $width/$colum * 100%;
+  }
+}

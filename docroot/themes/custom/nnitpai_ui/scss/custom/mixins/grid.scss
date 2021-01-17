@@ -1,0 +1,30 @@
+@mixin row() {
+}
+
+@mixin colum() {
+}
+
+@mixin gap($size) {
+  .gap-#{$size} {
+    gap: $size;
+  }
+
+  @each $name, $property in (x: column, y: row) {
+    .gap-#{$name}-#{$size} {
+      #{$property}-gap: $size;
+    }
+  }
+}
+
+@mixin grid(
+  $gaps: (10, 20, 30, 40, 50, 60),
+
+) {
+  @each $gap in $gaps {
+    @include gap($gap);
+  }
+}
+
+@include grid(
+  $gaps: (10, 20),
+);

@@ -1,0 +1,77 @@
+#user--login {
+  form {
+    .js-form-item {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 5px;
+
+      label {
+        font-size: 0.8em;
+        opacity: 0.8;
+        margin-bottom: 0px;
+        vertical-align: middle;
+      }
+
+      input {
+        border-width: 0 0 1px 0;
+        padding: 0;
+        line-height: 30px;
+        height: 30px;
+        border-radius: 0;
+        vertical-align: middle;
+
+        &[type='file'] {
+          margin-top: 10px;
+        }
+
+        &:focus {
+          box-shadow: none;
+        }
+      }
+
+      .description {
+        display: none;
+      }
+    }
+
+    .form-actions {
+      input[type='submit'] {
+        width: 100%;
+        line-height: 35px;
+        background-color: $site-base;
+        border: none;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+
+        &:hover,
+        &:focus {
+          background-color: rgba($site-base, 80%);
+        }
+      }
+    }
+  }
+
+  .nav-tabs {
+    .nav-item,
+    .nav-link {
+      font-size: 1.25rem;
+      font-weight: bold;
+
+      &.active,
+      &.focus,
+      &:hover {
+        border-bottom-width: 2px;
+        background-color: transparent;
+        border-color: transparent transparent $site-base transparent;
+      }
+
+      a {
+        color: #000;
+      }
+    }
+
+    .nav-link {
+      padding: 1rem;
+    }
+  }
+}

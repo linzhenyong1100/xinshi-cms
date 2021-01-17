@@ -1,0 +1,8 @@
+.container {
+  width: 100%;
+  @each $k, $v in $responsives {
+    @media (min-width: $v) {
+      max-width: $v;
+    }
+  }
+}

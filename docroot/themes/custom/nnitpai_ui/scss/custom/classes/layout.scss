@@ -1,0 +1,28 @@
+.static {
+  position: static;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+.fixed {
+  position: fixed;
+}
+.sticky {
+  position: sticky;
+}
+
+.inset-t-200 {
+  top: 200px;
+}
+.inset-t-1\/4 {
+  top: 1/4 * 100%;
+}
+.inset-t-1\/2 {
+  top: 1/2 * 100%;
+}
+.inset-l-1\/2 {
+  left: 1/2 * 100%;
+}
