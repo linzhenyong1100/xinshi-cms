@@ -35,3 +35,4 @@
 
 # node modules
 **/node_modules/
+vendor/drush/
