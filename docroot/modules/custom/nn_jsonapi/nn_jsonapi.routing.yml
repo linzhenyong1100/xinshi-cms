@@ -1,0 +1,7 @@
+nn_jsonapi.content:
+  path: '/api/content'
+  defaults:
+    _controller: '\Drupal\nn_jsonapi\Controller\ApiController::contentJson'
+    _title: 'Content Json'
+  requirements:
+    _permission: 'access content'
