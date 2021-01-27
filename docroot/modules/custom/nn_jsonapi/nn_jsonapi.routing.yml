@@ -1,5 +1,5 @@
 nn_jsonapi.content:
-  path: '/api/content'
+  path: '/api/v1/config'
   defaults:
     _controller: '\Drupal\nn_jsonapi\Controller\ApiController::contentJson'
     _title: 'Content Json'
