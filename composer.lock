@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b04b3496be44b01b784456872c791407",
+    "content-hash": "8eda8c4898627265edfda46f265db38d",
     "packages": [
         {
             "name": "acquia/lightning",
@@ -198,7 +198,7 @@
             "version": "v2.3.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fengyuanchen/cropper.git",
+                "url": "git@github.com:fengyuanchen/cropper.git",
                 "reference": "30c58b29ee21010e17e58ebab165fbd84285c685"
             },
             "dist": {
@@ -231,7 +231,7 @@
             "version": "3.5.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:jquery/jquery-dist.git",
+                "url": "https://github.com/jquery/jquery-dist.git",
                 "reference": "4c0e4becb8263bb5b3e6dadc448d8e7305ef8215"
             },
             "dist": {
@@ -1503,6 +1503,42 @@
             "time": "2020-10-27T21:46:55+00:00"
         },
         {
+            "name": "drupal-ckeditor-libraries-group/codesnippet",
+            "version": "4.16.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/drupal-ckeditor-libraries-group/codesnippet.git",
+                "reference": "cbddc36e5873323b1c34db1542a3449bcb1ff9e7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/drupal-ckeditor-libraries-group/codesnippet/zipball/cbddc36e5873323b1c34db1542a3449bcb1ff9e7",
+                "reference": "cbddc36e5873323b1c34db1542a3449bcb1ff9e7",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "type": "drupal-library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later",
+                "LGPL-2.1-or-later",
+                "MPL-1.1"
+            ],
+            "description": "CKEditor 4 codesnippet plugin",
+            "homepage": "https://ckeditor.com/cke4/addon/codesnippet",
+            "keywords": [
+                "CKEditor",
+                "codesnippet",
+                "plugin"
+            ],
+            "time": "2021-01-25T12:06:23+00:00"
+        },
+        {
             "name": "drupal/ace_editor",
             "version": "1.3.0",
             "source": {
@@ -2026,6 +2062,113 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/blazy",
                 "issues": "https://drupal.org/project/issues/blazy"
+            }
+        },
+        {
+            "name": "drupal/ckeditor_uploadimage",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/ckeditor_uploadimage.git",
+                "reference": "8.x-2.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/ckeditor_uploadimage-8.x-2.0.zip",
+                "reference": "8.x-2.0",
+                "shasum": "5ef494654bfa2b8a502f2ac8953e36e15a41ae00"
+            },
+            "require": {
+                "drupal/core": "^8.7.7 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-2.0",
+                    "datestamp": "1587641759",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Roland Michael dela Peña (arpeggio)",
+                    "homepage": "https://www.webfoobar.com",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "mertres",
+                    "homepage": "https://www.drupal.org/user/3513520"
+                }
+            ],
+            "description": "Integrates CKEditor's Upload Image plugin to Drupal. This enables Drupal's default WYSIWYG text editor capable of uploading images that were dropped or pasted from clipboard into the editor as inline image.",
+            "homepage": "https://drupal.org/project/ckeditor_uploadimage",
+            "support": {
+                "source": "https://git.drupalcode.org/project/ckeditor_uploadimage"
+            }
+        },
+        {
+            "name": "drupal/codesnippet",
+            "version": "1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/codesnippet.git",
+                "reference": "8.x-1.7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/codesnippet-8.x-1.7.zip",
+                "reference": "8.x-1.7",
+                "shasum": "d620a6d1272e9811e19cc69524a991e271da142c"
+            },
+            "require": {
+                "drupal-ckeditor-libraries-group/codesnippet": "^4.5.11",
+                "drupal/core": "^8 || ^9"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.7",
+                    "datestamp": "1593798298",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Quillen (kevinquillen)",
+                    "homepage": "https://www.drupal.org/u/kevinquillen",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "kevinquillen",
+                    "homepage": "https://www.drupal.org/user/317279"
+                },
+                {
+                    "name": "szloredan",
+                    "homepage": "https://www.drupal.org/user/3531611"
+                }
+            ],
+            "description": "Adds the CodeSnippet plugin to CKEditor.",
+            "homepage": "http://drupal.org/project/codesnippet",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/codesnippet",
+                "issues": "http://drupal.org/project/issues/codesnippet"
             }
         },
         {
@@ -4155,6 +4298,64 @@
             "homepage": "https://www.drupal.org/project/jquery_ui_droppable",
             "support": {
                 "source": "https://git.drupalcode.org/project/jquery_ui_droppable"
+            }
+        },
+        {
+            "name": "drupal/json_editor",
+            "version": "1.0.0-beta1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/json_editor.git",
+                "reference": "8.x-1.0-beta1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/json_editor-8.x-1.0-beta1.zip",
+                "reference": "8.x-1.0-beta1",
+                "shasum": "27dc92b4d8f23900bcc0d3c54aedcac07ab28eaf"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.0-beta1",
+                    "datestamp": "1553248685",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Beta releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Websolutions Agency",
+                    "homepage": "https://www.drupal.org/websolutions-agency",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "josipsaric",
+                    "homepage": "https://www.drupal.org/user/3063287"
+                },
+                {
+                    "name": "tamerzg",
+                    "homepage": "https://www.drupal.org/user/464564"
+                },
+                {
+                    "name": "ws.agency",
+                    "homepage": "https://www.drupal.org/user/2851415"
+                }
+            ],
+            "description": "Json Editor is text formatter for drupal.",
+            "homepage": "https://www.drupal.org/project/json_editor",
+            "support": {
+                "source": "http://cgit.drupalcode.org/json_editor",
+                "issues": "https://www.drupal.org/project/issues/json_editor"
             }
         },
         {
@@ -14983,7 +15184,8 @@
         "drupal/footable": 15,
         "drupal/select_or_other": 15,
         "drupal/shs": 15,
-        "drupal/eck": 10
+        "drupal/eck": 10,
+        "drupal/json_editor": 10
     },
     "prefer-stable": true,
     "prefer-lowest": false,
