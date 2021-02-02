@@ -45,4 +45,5 @@ return array(
     'd6b246ac924292702635bb2349f4a64b' => $vendorDir . '/lcobucci/jwt/compat/lcobucci-clock-polyfill.php',
     'fbeead2280a8f3911a1fe6dd034f7d5e' => $vendorDir . '/mkalkbrenner/php-htmldiff-advanced/src/HtmlDiffAdvancedInterface.php',
     '96f8d8288528d52059397cad6ec61f17' => $vendorDir . '/mkalkbrenner/php-htmldiff-advanced/src/HtmlDiffAdvanced.php',
+    '3917c79c5052b270641b5a200963dbc2' => $vendorDir . '/kint-php/kint/init.php',
 );
