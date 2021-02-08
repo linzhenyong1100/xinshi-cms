@@ -4,6 +4,7 @@ namespace Drupal\nn_jsonapi\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Drupal\nn_jsonapi\NodeJson;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Drupal\node\Entity\Node;
 
@@ -32,29 +33,25 @@ class ApiController extends ControllerBase implements ContainerInjectionInterfac
       if (preg_match('/node\/(\d+)/', $path, $matches)) {
         $id = $matches[1];
       }
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
 
     }
     $entity = (empty($id) == FALSE && is_numeric($id)) ? Node::load($id) : '';
-    if (empty($entity)) return new JsonResponse($data);
-    switch ($entity->bundle()) {
-      case 'json':
-        return $this->getContentJson($entity);
+    if (empty($entity)) {
+      return new JsonResponse($data);
+    }
+    if ($entity) {
+      try {
+        switch ($entity->getEntityTypeId()) {
+          case 'node':
+            $json = new NodeJson($entity);
+            $data = $json->getContent();
+        }
+      } catch (\Exception $e) {
+
+      }
     }
     return new JsonResponse($data);
   }
 
-  /**
-   * Return the content of json.
-   * @param Node $entity
-   * @return JsonResponse
-   */
-  private function getContentJson(Node $entity) {
-    try {
-      return new JsonResponse(json_decode($entity->get('body')->value));
-    } catch (Exception $e) {
-
-    }
-    return new JsonResponse([]);
-  }
 }
