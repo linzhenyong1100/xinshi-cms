@@ -6,14 +6,14 @@
  * Time: 4:29 PM
  */
 
-namespace Drupal\nn_jsonapi;
+namespace Drupal\nnd_jsonapi;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Render\Markup;
 
 /**
  * Class NodeJson
- * @package Drupal\nn_jsonapi
+ * @package Drupal\nnd_jsonapi
  */
 class NodeJson extends EntityJsonBase {
 

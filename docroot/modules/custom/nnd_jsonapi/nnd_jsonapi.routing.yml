@@ -1,16 +1,16 @@
-nn_jsonapi.content:
+nnd_jsonapi.content:
   path: '/api/v1/config'
   defaults:
-    _controller: '\Drupal\nn_jsonapi\Controller\ApiController::contentJson'
+    _controller: '\Drupal\nnd_jsonapi\Controller\ApiController::contentJson'
     _title: 'Content Json'
   requirements:
     _permission: 'access content'
 
 
-nn_jsonapi.landing-page:
+nnd_jsonapi.landing-page:
   path: '/api/v1/landingPage'
   defaults:
-    _controller: '\Drupal\nn_jsonapi\Controller\ApiController::landingPageJson'
+    _controller: '\Drupal\nnd_jsonapi\Controller\ApiController::landingPageJson'
     _title: 'Content Json'
   requirements:
     _permission: 'access content'

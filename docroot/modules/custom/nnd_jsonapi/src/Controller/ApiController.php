@@ -1,10 +1,10 @@
 <?php
 
-namespace Drupal\nn_jsonapi\Controller;
+namespace Drupal\nnd_jsonapi\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
-use Drupal\nn_jsonapi\NodeJson;
+use Drupal\nnd_jsonapi\NodeJson;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Drupal\node\Entity\Node;
 
@@ -31,16 +31,7 @@ class ApiController extends ControllerBase implements ContainerInjectionInterfac
             $data = $json->getContent();
         }
       } catch (\Exception $e) {
-        $data = [
-          'status' => 'Error',
-          'message' => $e->getMessage(),
-        ];
       }
-    } else {
-      $data = [
-        'status' => 'Error',
-        'message' => t('Entity not found.'),
-      ];
     }
     return new JsonResponse($data);
   }
@@ -60,16 +51,7 @@ class ApiController extends ControllerBase implements ContainerInjectionInterfac
             $data = $json->getContent();
         }
       } catch (\Exception $e) {
-        $data = [
-          'status' => 'Error',
-          'message' => $e->getMessage(),
-        ];
       }
-    } else {
-      $data = [
-        'status' => 'Error',
-        'message' => t('Entity not found.'),
-      ];
     }
     return new JsonResponse($data);
   }
@@ -85,6 +67,7 @@ class ApiController extends ControllerBase implements ContainerInjectionInterfac
     try {
       $base = \Drupal::request()->getBaseUrl();
       $path = str_replace([$base], '', $path);
+      $path = '/' . trim($path, '/');
       $path = \Drupal::service('path.alias_manager')->getPathByAlias($path);
       if (preg_match('/node\/(\d+)/', $path, $matches)) {
         $id = $matches[1];

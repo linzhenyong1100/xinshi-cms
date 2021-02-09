@@ -6,14 +6,14 @@
  * Time: 4:21 PM
  */
 
-namespace Drupal\nn_jsonapi;
+namespace Drupal\nnd_jsonapi;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Component\Serialization\Json;
 
 /**
  * Class EntityJsonBase
- * @package Drupal\nn_jsonapi
+ * @package Drupal\nnd_jsonapi
  */
 class EntityJsonBase implements EntityJsonInterface {
 

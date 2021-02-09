@@ -6,11 +6,11 @@
  * Time: 4:16 PM
  */
 
-namespace Drupal\nn_jsonapi;
+namespace Drupal\nnd_jsonapi;
 
 /**
  * Interface EntityJsonInterface
- * @package Drupal\nn_jsonapi
+ * @package Drupal\nnd_jsonapi
  */
 interface EntityJsonInterface {
 
