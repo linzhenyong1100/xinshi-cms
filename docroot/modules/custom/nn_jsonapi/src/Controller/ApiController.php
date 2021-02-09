@@ -52,7 +52,7 @@ class ApiController extends ControllerBase implements ContainerInjectionInterfac
   public function landingPageJson() {
     $data = [];
     $entity = $this->getEntityByQuery();
-    if ($entity && $entity->bundle() == 'landing-page') {
+    if ($entity && $entity->bundle() == 'landing_page') {
       try {
         switch ($entity->getEntityTypeId()) {
           case 'node':
