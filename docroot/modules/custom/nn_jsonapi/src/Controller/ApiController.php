@@ -23,9 +23,65 @@ class ApiController extends ControllerBase implements ContainerInjectionInterfac
    */
   public function contentJson() {
     $data = [];
+    if ($entity = $this->getEntityByQuery()) {
+      try {
+        switch ($entity->getEntityTypeId()) {
+          case 'node':
+            $json = new NodeJson($entity);
+            $data = $json->getContent();
+        }
+      } catch (\Exception $e) {
+        $data = [
+          'status' => 'Error',
+          'message' => $e->getMessage(),
+        ];
+      }
+    } else {
+      $data = [
+        'status' => 'Error',
+        'message' => t('Entity not found.'),
+      ];
+    }
+    return new JsonResponse($data);
+  }
+
+  /**
+   * Return landing page json.
+   * @return JsonResponse
+   */
+  public function landingPageJson() {
+    $data = [];
+    $entity = $this->getEntityByQuery();
+    if ($entity && $entity->bundle() == 'landing-page') {
+      try {
+        switch ($entity->getEntityTypeId()) {
+          case 'node':
+            $json = new NodeJson($entity);
+            $data = $json->getContent();
+        }
+      } catch (\Exception $e) {
+        $data = [
+          'status' => 'Error',
+          'message' => $e->getMessage(),
+        ];
+      }
+    } else {
+      $data = [
+        'status' => 'Error',
+        'message' => t('Entity not found.'),
+      ];
+    }
+    return new JsonResponse($data);
+  }
+
+  /**
+   * @param string $key
+   * @return \Drupal\Core\Entity\EntityInterface|null|static
+   */
+  private function getEntityByQuery($key = 'content') {
     $id = '';
     //get node id
-    $path = \Drupal::request()->get('content');
+    $path = \Drupal::request()->get($key);
     try {
       $base = \Drupal::request()->getBaseUrl();
       $path = str_replace([$base], '', $path);
@@ -36,22 +92,9 @@ class ApiController extends ControllerBase implements ContainerInjectionInterfac
     } catch (\Exception $e) {
 
     }
-    $entity = (empty($id) == FALSE && is_numeric($id)) ? Node::load($id) : '';
-    if (empty($entity)) {
-      return new JsonResponse($data);
-    }
-    if ($entity) {
-      try {
-        switch ($entity->getEntityTypeId()) {
-          case 'node':
-            $json = new NodeJson($entity);
-            $data = $json->getContent();
-        }
-      } catch (\Exception $e) {
+    $entity = (empty($id) == FALSE && is_numeric($id)) ? Node::load($id) : NULL;
 
-      }
-    }
-    return new JsonResponse($data);
+    return $entity;
   }
 
 }
