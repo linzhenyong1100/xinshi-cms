@@ -32,7 +32,9 @@
         "drupal/json_editor": "^1.0@beta",
         "drupal/codesnippet": "^1.7",
         "drupal/ckeditor_uploadimage": "^2.0",
-        "kint-php/kint": "^3.3"
+        "kint-php/kint": "^3.3",
+        "drupal/mailsystem": "^4.3",
+        "drupal/swiftmailer": "^2.0"
     },
     "require-dev": {
         "drush/drush": ">=9.7",

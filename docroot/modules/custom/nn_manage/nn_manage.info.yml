@@ -1,9 +1,0 @@
-name: 'NN CMS Content Manage'
-type: module
-description: 'Content manage for nn cms.'
-core: 8.x
-core_version_requirement: '^8 || ^9'
-package: "NN CMS"
-# Information added by Drupal.org packaging script on 2020-09-03
-version: '8.x-1.0'
-project: 'nn_manage'
