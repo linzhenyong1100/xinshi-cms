@@ -11,7 +11,7 @@ use Drupal\Component\Serialization\Json;
  * Implements hook_form_alter().
  */
 function nnd_manage_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  $form['#validate'][] = 'nn_manage_json_validate';
+  $form['#validate'][] = 'nnd_manage_json_validate';
 }
 
 /**
@@ -19,7 +19,7 @@ function nnd_manage_form_node_form_alter(&$form, FormStateInterface $form_state,
  */
 function nnd_manage_form_block_content_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $form['revision_information']['#access'] = FALSE;
-  $form['#validate'][] = 'nn_manage_json_validate';
+  $form['#validate'][] = 'nnd_manage_json_validate';
 }
 
 /**
