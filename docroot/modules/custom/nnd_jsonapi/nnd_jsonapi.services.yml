@@ -1,0 +1,6 @@
+services:
+  nnd_jsonapi.twig.extension:
+    class: Drupal\nnd_jsonapi\TwigExtension\DefaultTwigExtension
+    arguments: []
+    tags:
+      - { name: twig.extension }
