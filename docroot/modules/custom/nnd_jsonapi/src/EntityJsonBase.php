@@ -47,7 +47,28 @@ class EntityJsonBase implements EntityJsonInterface {
     $content = render($build);
     if ($str = $content->jsonSerialize()) {
       $data = Json::decode(htmlspecialchars_decode($str));
+      $this->setFullText($data);
     }
     return $data ? $data : [];
+  }
+
+  /**
+   * Set Full text value.
+   * @param $data
+   */
+  private function setFullText(&$data) {
+    foreach ($data as $key => &$val) {
+      if (is_array($val)) {
+        $this->setFullText($val);
+      } elseif (is_string($val)) {
+        preg_match('/^\[full_text\.\w+\]$/', $val, $matches);
+        if ($matches) {
+          $field = explode(".", trim($val, ']'))[1];
+          if ($this->entity->hasField($field)) {
+            $val = $this->entity->get($field)->value;
+          }
+        }
+      }
+    }
   }
 }
