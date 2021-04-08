@@ -15,5 +15,7 @@ jobs:
         working-directory: ./
     steps:
     - uses: actions/checkout@v1
+    - name: install sshpass
+      run: sudo apt-get install sshpass
     - name: pull latest change
       run : sudo sshpass -p ${{ secrets.SSH_PASS }} -v ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.HUAWEI_HOST }} 'cd /sdc/www/nnitpai-cms && git pull origin main'
