@@ -38,11 +38,25 @@ class NodeJson extends EntityJsonBase {
   private function landingPageType() {
     $displays = $this->entity->get('panelizer')->panels_display;
     $data['title'] = $this->entity->label();
+    $data['body'] = [];
+    $widgets = [];
     foreach ($displays['blocks'] as $display) {
       $block = $this->entityTypeManager->getStorage($display['provider'])->loadByProperties(['uuid' => explode(":", $display['id'])[1]]);
       if ($block) {
         $entityJson = new EntityJsonBase(current($block));
-        $data['body'][] = $entityJson->getContent();
+        //$data['body'][] = $entityJson->getContent();
+        $widgets[] = [
+          'weight' => $display['weight'],
+          'content' => $entityJson->getContent(),
+        ];
+      }
+    }
+    array_multisort($widgets, SORT_ASC, SORT_NUMERIC, array_column($widgets, 'weight'));
+    foreach (array_column($widgets, 'content') as $item) {
+      if (count($item) == 1 && isset($item['body']) && is_array($item['body'])) {
+        $data['body'] = array_merge($data['body'], $item['body']);
+      } else {
+        $data['body'][] = $item;
       }
     }
     return $data;
