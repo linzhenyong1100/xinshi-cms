@@ -14,7 +14,7 @@ class DefaultTwigExtension extends \Twig_Extension {
    * {@inheritdoc}
    */
   public function getName() {
-    return 'nnd_component.twig.extension';
+    return 'nnd_jsonapi.twig.extension';
   }
 
   /**

@@ -6,33 +6,28 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\nnd_component\Plugin\ContentFormBase;
 
 /**
- * Class Showcase_1v1
+ * Class Showcase_1v2
  *
  * @ContentWidgetAnnotation(
- *   id = "content_form_showcase_1v1",
- *   label = @Translation("Showcase 1v1"),
- *   admin_label = @Translation("Showcase 1v1"),
- *   description = @Translation("Showcase 1v1"),
- *   entity = "block_content:showcase_1v1",
+ *   id = "content_form_showcase_1v2",
+ *   label = @Translation("Showcase 1v2"),
+ *   admin_label = @Translation("Showcase 1v2"),
+ *   description = @Translation("Showcase 1v2"),
+ *   entity = "block_content:showcase_1v2",
  *   plugin_path = {
  *     "type" = "module",
  *     "name" = "content_form",
- *     "directory" = "src/Plugin/ContentForm/Showcase_1v1",
+ *     "directory" = "src/Plugin/ContentForm/Showcase_1v2",
  *   },
  * )
  */
-class Showcase_1v1 extends ContentFormBase {
+class Showcase_1v2 extends ContentFormBase {
 
   /**
    * {@inheritdoc}
    */
   public function formAlter(&$form, FormStateInterface $form_state) {
     // TODO: Implement alter() method.
-    //$form['background']['#states'] = [
-    //  'visible' => [['select[name="showcase_1v1_style"]' => ['value' => 'style-v2']],
-    //    ['select[name="showcase_1v1_style"]' => ['value' => 'style-v4']],
-    //    ['select[name="showcase_1v1_style"]' => ['value' => 'style-v7']]],
-    //];
     $form['icon']['#states'] = [
       'visible' => ['select[name="showcase_1v1_title_style"]' => ['value' => 'style-v2']],
     ];
