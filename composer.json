@@ -34,7 +34,8 @@
         "drupal/ckeditor_uploadimage": "^2.0",
         "kint-php/kint": "^3.3",
         "drupal/mailsystem": "^4.3",
-        "drupal/swiftmailer": "^2.0"
+        "drupal/swiftmailer": "^2.0",
+        "drupal/paragraphs": "^1.12"
     },
     "require-dev": {
         "drush/drush": ">=9.7",
