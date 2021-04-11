@@ -1,0 +1,9 @@
+services:
+  nnd_component.twig.extension:
+    class: Drupal\nnd_component\TwigExtension\DefaultTwigExtension
+    arguments: []
+    tags:
+      - { name: twig.extension }
+  plugin.manager.content_form:
+    class: Drupal\nnd_component\Plugin\ContentFormManager
+    parent: default_plugin_manager
