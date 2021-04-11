@@ -78,6 +78,7 @@ class EntityReferenceItemNormalizer extends FieldItemNormalizer {
         $data['#cache']['tags'][] = 'config:system.menu.' . $entity->id();
         break;
     }
+    //dump($data);
     return $data;
   }
 }
