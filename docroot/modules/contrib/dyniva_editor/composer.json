@@ -1,0 +1,30 @@
+
+{
+    "name": "davyin/dyniva_editor",
+    "description": "dyniva_editor for drupal 8 +.",
+    "type": "drupal-custom-module",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://github.com/davyin-co/dyniva_editor",
+    "require": {
+        "drupal/core": "^8.6 || ^9",
+        "drupal/ckeditor_uploadimage": "^1.5",
+        "drupal/ckeditor_font": "^1.0",
+        "drupal/ckeditor_pasteimage": "^1.0@alpha",
+        "drupal/ckeditor_pasteexcel": "^1.0@alpha",
+        "drupal/ckeditor_autosave": "^1.0@beta",
+        "drupal/ckeditor_textindent": "^1.0@alpha",
+        "drupal/ckeditor_copyformatting": "^1.0",
+        "drupal/ckeditor_lineheight": "^1.1",
+        "drupal/pathologic": "~1.0",
+        "drupal/image_resize_filter": "~1.0",
+        "drupal/anchor_link": "~1.0",
+        "drupal/linkit": "^4.3"
+    },
+    "extra": {
+        "patches": {
+            "drupal/ckeditor_uploadimage": {
+                "image size": "https://raw.githubusercontent.com/davyin-co/dyniva/1.1.x/patches/ckeditor_uploadimage_original_size.patch"
+            }
+        }
+    }
+}
