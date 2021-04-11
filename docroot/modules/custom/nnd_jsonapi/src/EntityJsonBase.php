@@ -47,7 +47,7 @@ class EntityJsonBase implements EntityJsonInterface {
     $content = render($build);
     if ($str = $content->jsonSerialize()) {
       $data = Json::decode(htmlspecialchars_decode($str));
-      $this->urlDecodeValue($data);
+      $this->setFullText($data);
     }
     return $data ? $data : [];
   }
@@ -59,14 +59,14 @@ class EntityJsonBase implements EntityJsonInterface {
   private function setFullText(&$data) {
     foreach ($data as $key => &$val) {
       if (is_array($val)) {
-        $this->setFullText($val);
-      } elseif (is_string($val)) {
-        preg_match('/^\[full_text\.\w+\]$/', $val, $matches);
-        if ($matches) {
-          $field = explode(".", trim($val, ']'))[1];
-          if ($this->entity->hasField($field)) {
-            $val = $this->entity->get($field)->value;
+        if (count($val) == 2 && isset($val['dataType']) && isset($val['data'])) {
+          switch ($val['dataType']) {
+            case 'full_text':
+              $val = urldecode($val['data']);
+              break;
           }
+        } else {
+          $this->setFullText($val);
         }
       }
     }
@@ -81,7 +81,7 @@ class EntityJsonBase implements EntityJsonInterface {
       if (is_array($val)) {
         $this->urlDecodeValue($val);
       } elseif (is_string($val)) {
-        $val = htmlspecialchars_decode(urldecode($val));
+        $val = urldecode($val);
       }
     }
   }
