@@ -8,6 +8,7 @@
 
 namespace Drupal\nnd_jsonapi;
 
+use Drupal\block_content\Entity\BlockContent;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Render\Markup;
 
@@ -47,13 +48,15 @@ class NodeJson extends EntityJsonBase {
         $widgets[] = [
           'weight' => $display['weight'],
           'content' => $entityJson->getContent(),
+          'type' => $entityJson->entity->bundle(),
         ];
       }
     }
     //Sort widgets by weight
     array_multisort($widgets, SORT_ASC, SORT_NUMERIC, array_column($widgets, 'weight'));
-    foreach (array_column($widgets, 'content') as $item) {
-      if (count($item) == 1 && isset($item['body']) && is_array($item['body'])) {
+    foreach ($widgets as $widget) {
+      $item = $widget['content'];
+      if ($widget['type'] == 'json' && isset($item['body']) && is_array($item['body'])) {
         //multi widgets 
         $data['body'] = array_merge($data['body'], $item['body']);
       } else {
