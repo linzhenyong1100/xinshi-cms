@@ -35,7 +35,8 @@
         "kint-php/kint": "^3.3",
         "drupal/mailsystem": "^4.3",
         "drupal/swiftmailer": "^2.0",
-        "drupal/paragraphs": "^1.12"
+        "drupal/paragraphs": "^1.12",
+        "drupal/jsonapi_include": "^1.4"
     },
     "require-dev": {
         "drush/drush": ">=9.7",
