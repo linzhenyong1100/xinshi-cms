@@ -8,9 +8,7 @@
 
 namespace Drupal\nnd_jsonapi;
 
-use Drupal\block_content\Entity\BlockContent;
-use Drupal\Component\Serialization\Json;
-use Drupal\Core\Render\Markup;
+use Drupal\nnd_component\CommonUtil;
 
 /**
  * Class NodeJson
@@ -41,16 +39,22 @@ class NodeJson extends EntityJsonBase {
     $data['title'] = $this->entity->label();
     $data['body'] = [];
     $widgets = [];
+    $this->getBanner($data);
     foreach ($displays['blocks'] as $display) {
-      $block = $this->entityTypeManager->getStorage($display['provider'])->loadByProperties(['uuid' => explode(":", $display['id'])[1]]);
-      if ($block) {
-        $entityJson = new EntityJsonBase(current($block));
-        $widgets[] = [
-          'weight' => $display['weight'],
-          'content' => $entityJson->getContent(),
-          'type' => $entityJson->entity->bundle(),
-        ];
+      switch ($display['provider']) {
+        case 'block_content':
+          $block = $this->entityTypeManager->getStorage($display['provider'])->loadByProperties(['uuid' => explode(':', $display['id'])[1]]);
+          if ($block) {
+            $entityJson = new EntityJsonBase(current($block));
+            $widgets[] = [
+              'weight' => $display['weight'],
+              'content' => $entityJson->getContent(),
+              'type' => $entityJson->entity->bundle(),
+            ];
+          }
+          break;
       }
+
     }
     //Sort widgets by weight
     array_multisort($widgets, SORT_ASC, SORT_NUMERIC, array_column($widgets, 'weight'));
@@ -64,6 +68,32 @@ class NodeJson extends EntityJsonBase {
       }
     }
     return $data;
+  }
+
+  /**
+   * Set banner data.
+   * @param $data
+   */
+  private function getBanner(&$data) {
+    if ($this->entity->get('is_display_title')->isEmpty()) {
+      return;
+    }
+    $banner['type'] = 'banner-simple';
+    $banner['style'] = $this->entity->get('banner_style')->isEmpty() ? 'normal' : $this->entity->get('banner_style')->value;
+
+    $media = $this->entity->get('media')->entity;
+    $banner['bannerBg'] = [
+      'classes' => 'bg-fill-width',
+      'img' => [
+        'hostClasses' => 'bg-center',
+        'src' => $media ? CommonUtil::getImageStyle($media->get('field_media_image')->target_id) : '',
+        'alt' => $media ? $media->label() : '',
+      ],
+    ];
+    $banner['title'] = $this->entity->label();
+    $banner['breadcrumb'] = [
+    ];
+    $data['body'][] = $banner;
   }
 
 }

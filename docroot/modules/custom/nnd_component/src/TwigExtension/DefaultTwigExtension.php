@@ -3,6 +3,7 @@
 namespace Drupal\nnd_component\TwigExtension;
 
 use Drupal\Core\Url;
+use Drupal\nnd_component\CommonUtil;
 use Drupal\taxonomy\Entity\Term;
 
 /**
@@ -36,14 +37,7 @@ class DefaultTwigExtension extends \Twig_Extension {
    * @return bool|string
    */
   public static function removeBaseUrl($url) {
-    if (empty($url)) {
-      return $url;
-    }
-    $base_root = $GLOBALS['base_root'];
-    if (strpos($url, $base_root) === 0) {
-      $url = substr($url, strlen($base_root));
-    }
-    return $url;
+    return CommonUtil::removeBaseUrl($url);
   }
 
 }
