@@ -1,0 +1,23 @@
+base:
+  version: 1.x
+  js:
+    js/script.js: {}
+    lib/bootstrap/js/bootstrap.min.js: {}
+    lib/slimScroll/jquery.slimscroll.min.js: {}
+    lib/custom-event-polyfill.js: {}
+    lib/fastclick/fastclick.min.js: {}
+    lib/adminlte/js/app.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal.ajax
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once
+styles:
+  css:
+    theme:
+      lib/bootstrap/css/bootstrap.min.css: {}
+      lib/adminlte/css/AdminLTE.min.css: {}
+      lib/adminlte/css/skins/_all-skins.min.css: {}
+      css/style.css: {}
+      css/print.css: { media: print }

@@ -1,0 +1,28 @@
+name: CMS admin
+description: 'Drupal 8 admin theme'
+base theme: seven
+package: Custom
+type: theme
+# version: 1.0.0
+# core: 8.x
+libraries:
+  - cms_admin/base
+  - cms_admin/styles
+regions:
+  brand: Site Branding
+  header: Header
+  top: Top
+  content: Content
+  bottom: Bottom
+  sidebar: Sidebar
+  footer: Footer
+  navbar_right_notifications: Navbar Right Notifications
+features:
+  - favicon
+  - logo
+
+
+version: '8.x-1.0'
+core: '8.x'
+project: 'admin_theme'
+datestamp: 1519506484

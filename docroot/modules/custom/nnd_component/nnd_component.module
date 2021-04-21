@@ -4,7 +4,6 @@ use Drupal\Core\Form\FormStateInterface;
 
 function nnd_component_preprocess_block(&$variables) {
   if ($variables['base_plugin_id'] == 'block_content' && isset($variables['content']['#block_content']) && $variables['content']['#block_content']) {
-    //dump($variables);
   }
 }
 
@@ -12,6 +11,20 @@ function nnd_component_preprocess_block(&$variables) {
  * Implements hook_form_alter().
  */
 function nnd_component_form_block_content_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $entity = $form_state->getFormObject()->getEntity();
+  if ($entity) {
+    $type = \Drupal::service('plugin.manager.content_form');
+    $plugin = $type->getPluginByEntityName($entity->getEntityTypeId() . ':' . $entity->bundle());
+    if ($plugin) {
+      $plugin->formAlter($form, $form_state);
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function nnd_component_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   $entity = $form_state->getFormObject()->getEntity();
   if ($entity) {
     $type = \Drupal::service('plugin.manager.content_form');

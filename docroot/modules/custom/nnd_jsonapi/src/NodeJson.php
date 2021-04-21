@@ -75,7 +75,7 @@ class NodeJson extends EntityJsonBase {
    * @param $data
    */
   private function getBanner(&$data) {
-    if ($this->entity->get('is_display_title')->isEmpty()) {
+    if (empty($this->entity->get('is_display_title')->value)) {
       return;
     }
     $banner['type'] = 'banner-simple';
