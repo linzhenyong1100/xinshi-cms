@@ -1,0 +1,451 @@
+@font-face {
+  font-family: "iconfont";
+  src: url('../fonts/iconfont.eot');
+  /* IE9*/
+  src: url('../fonts/iconfont.eot#iefix') format('embedded-opentype'),
+    /* IE6-IE8 */
+    url('../fonts/iconfont.woff') format('woff'),
+    /* chrome, firefox */
+    url('../fonts/iconfont.ttf') format('truetype'),
+    /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('../fonts/iconfont.svg#iconfont') format('svg');
+  /* iOS 4.1- */
+}
+
+.icon {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* footable */
+.fooicon {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fooicon-plus:before {
+  content: "\e609";
+}
+
+.fooicon-minus:before {
+  content: "\e723";
+}
+
+.fooicon-loader:before {
+  content: "\e81c";
+}
+
+.main-header .sidebar-toggle {
+  font-family: "iconfont" !important;
+  font-size: 14px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.main-header .sidebar-toggle:before {
+  content: "\e602";
+}
+
+.icon-chenggong:before {
+  content: "\e600";
+}
+
+.icon-music:before {
+  content: "\e61c";
+}
+
+.icon-67:before {
+  content: "\e662";
+}
+
+.icon-video:before {
+  content: "\e725";
+}
+
+.icon-icon_search:before {
+  content: "\e6b0";
+}
+
+.icon-save:before {
+  content: "\e63d";
+}
+
+.icon-dianhuahuibo01:before {
+  content: "\e636";
+}
+
+.icon-blockquote:before {
+  content: "\e608";
+}
+
+.icon-weixin:before {
+  content: "\e625";
+}
+
+.icon-image:before {
+  content: "\e620";
+}
+
+.icon-hot:before {
+  content: "\e758";
+}
+
+.icon-select:before {
+  content: "\e69f";
+}
+
+.icon-twitter:before {
+  content: "\ec9c";
+}
+
+.icon-youku:before {
+  content: "\e612";
+}
+
+.icon-jian:before {
+  content: "\e723";
+}
+
+.icon-checkbox-choose:before {
+  content: "\e61a";
+}
+
+.icon-iconfonttianjia:before {
+  content: "\e609";
+}
+
+.icon-checkbox-empty:before {
+  content: "\e63c";
+}
+
+.icon-rss3:before {
+  content: "\e6bb";
+}
+
+.icon-benshubook122:before {
+  content: "\e642";
+}
+
+.icon-jinggao-copy:before {
+  content: "\e601";
+}
+
+.icon-facebook:before {
+  content: "\e619";
+}
+
+.icon-shibai:before {
+  content: "\e61e";
+}
+
+.icon-cion24:before {
+  content: "\e618";
+}
+
+.icon-coffekafei:before {
+  content: "\e719";
+}
+
+.icon-iconfontgerenzhongxin:before {
+  content: "\e645";
+}
+
+.icon-zhanghuxinxi:before {
+  content: "\e624";
+}
+
+.icon-sizeactual:before {
+  content: "\e75a";
+}
+
+.icon-sizefullscreen:before {
+  content: "\e75b";
+}
+
+.icon-user2:before {
+  content: "\e816";
+}
+
+.icon-jianqiegongju:before {
+  content: "\e730";
+}
+
+.icon-icon:before {
+  content: "\e613";
+}
+
+.icon-help:before {
+  content: "\e88f";
+}
+
+.icon-zanting:before {
+  content: "\e79f";
+}
+
+.icon-email:before {
+  content: "\e647";
+}
+
+.icon-xiangyingshi:before {
+  content: "\e610";
+}
+
+.icon-tongzhi2:before {
+  content: "\e6ae";
+}
+
+.icon-loader:before {
+  content: "\e81c";
+}
+
+.icon-06:before {
+  content: "\e60c";
+}
+
+.icon-lujing:before {
+  content: "\e60a";
+}
+
+.icon-boshimao:before {
+  content: "\e60d";
+}
+
+.icon-tags:before {
+  content: "\e715";
+}
+
+.icon-biaoshilei_jihuamoban:before {
+  content: "\e60e";
+}
+
+.icon-qizi:before {
+  content: "\e651";
+}
+
+.icon-icon_wenjian:before {
+  content: "\e64d";
+}
+
+.icon-top:before {
+  content: "\e68c";
+}
+
+.icon-code:before {
+  content: "\e96f";
+}
+
+.icon-youku1:before {
+  content: "\e62f";
+}
+
+.icon-ai:before {
+  content: "\e604";
+}
+
+.icon-size:before {
+  content: "\e60b";
+}
+
+.icon-radio-choose:before {
+  content: "\e6ab";
+}
+
+.icon-ruler:before {
+  content: "\e61d";
+}
+
+.icon-yuedu:before {
+  content: "\e60f";
+}
+
+.icon-data:before {
+  content: "\e607";
+}
+
+.icon-menu:before {
+  content: "\e602";
+}
+
+.icon-select1:before {
+  content: "\e64a";
+}
+
+.icon-checkbox1:before {
+  content: "\e6d4";
+}
+
+.icon-bofang:before {
+  content: "\e603";
+}
+
+.icon-wenjian:before {
+  content: "\e793";
+}
+
+.icon-talk:before {
+  content: "\e605";
+}
+
+.icon-shijian:before {
+  content: "\e606";
+}
+
+.icon-cion24-copy:before {
+  content: "\e817";
+}
+
+.icon-cion24-copy-copy:before {
+  content: "\e818";
+}
+
+.icon-cion24-copy-copy-copy:before {
+  content: "\e819";
+}
+
+.icon-logo:before {
+  content: "\e001";
+}
+
+.icon-blockquote-copy:before {
+  content: "\ec9d";
+}
+
+#logo {
+  position: relative;
+}
+
+#logo img {
+  max-height: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#logo .logo-lg,
+#logo .logo-mini {
+  position: relative;
+  height: 50px;
+}
+
+.login-box .logo-lg>img {
+  max-width: 100%;
+}
+
+@media (max-width: 767px) {
+
+  body.skin-black #logo,
+  body.skin-black #logo:hover,
+  body.skin-black-light #logo,
+  body.skin-black-light #logo:hover {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+  }
+
+  .content-header>.breadcrumb {
+    margin-left: 0;
+  }
+
+}
+
+.login-page-header.logo .logo-lg {
+  display: block;
+}
+
+.login-page-header.logo .logo-mini {
+  display: none;
+}
+
+body .label {
+  color: #333;
+  font-size: 80%;
+}
+
+a.tabledrag-handle .handle {
+  width: 24px;
+  height: 24px;
+}
+
+.box>.box-header>h4 {
+  margin: 0;
+}
+
+@media (max-width: 991px) {
+  .content-header>h1.page-title {
+    margin-top: 20px;
+  }
+}
+
+.user-panel {
+  padding: 0;
+}
+
+.user-panel-custom {
+  height: 50px;
+}
+
+/* table */
+
+table td,
+table th {
+  padding: 10px 12px;
+}
+
+label {
+  display: table;
+}
+
+a.tabledrag-handle .handle {
+  width: 22px;
+  height: 22px;
+}
+
+/* sidebar menu */
+.sidebar-menu .icon-arrow-left {
+  transition: transform .2s ease;
+}
+
+.active .icon-arrow-left {
+  transform: rotate(-90deg);
+}
+
+/* fix sidebar */
+@media (min-width: 768px) {
+  .sidebar-mini.sidebar-collapse .main-sidebar {
+    width: 0px !important;
+  }
+
+  .sidebar-mini.sidebar-collapse .content-wrapper,
+  .sidebar-mini.sidebar-collapse .right-side,
+  .sidebar-mini.sidebar-collapse .main-footer {
+    margin-left: 0px !important;
+  }
+}
+
+.check-list {
+  background: #fff;
+  padding: 10px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.field-group-html-element h3 {
+  display: inline-block;
+  font-size: 18px;
+  margin: 0;
+  line-height: 1;
+}
+
+.content-wrapper>.content {
+  min-height: 100vh;
+}

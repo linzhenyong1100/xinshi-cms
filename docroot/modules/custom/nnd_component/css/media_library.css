@@ -1,0 +1,156 @@
+/**
+* @file media_library.module.css
+*/
+
+.media-library-item img {
+  width: 100%;
+}
+
+.nnd-media-library > .fieldset-wrapper > .media-library-open-button {
+  margin-bottom: 0;
+}
+
+@media screen and (min-width: 77em) {
+  .nnd-media-library-selection.media-library-selection-col-12 > .media-library-item--grid {
+    width: 8.33%;
+  }
+
+  /* Change the width for the modal and widget since there is less space. */
+  .nnd-media-library-selection.media-library-selection-col-12 > .media-library-widget-modal .media-library-item--grid,
+  .nnd-media-library-selection.media-library-selection-col-12 .media-library-item--grid {
+    width: 8.33%;
+  }
+
+  /* The selected items in the add form should be shown a bit smaller. */
+  .nnd-media-library-selection.media-library-selection-col-12 > .media-library-add-form__selected-media .media-library-item--small {
+    width: 8.33%;
+  }
+
+  .nnd-media-library-selection.media-library-selection-col-10 > .media-library-item--grid {
+    width: 10%;
+  }
+
+  /* Change the width for the modal and widget since there is less space. */
+  .nnd-media-library-selection.media-library-selection-col-10 > .media-library-widget-modal .media-library-item--grid,
+  .nnd-media-library-selection.media-library-selection-col-10 .media-library-item--grid {
+    width: 10%;
+  }
+
+  /* The selected items in the add form should be shown a bit smaller. */
+  .nnd-media-library-selection.media-library-selection-col-10 > .media-library-add-form__selected-media .media-library-item--small {
+    width: 10%;
+  }
+
+  .nnd-media-library-selection.media-library-selection-col-6 > .media-library-item--grid {
+    width: 16.6%;
+  }
+
+  /* Change the width for the modal and widget since there is less space. */
+  .nnd-media-library-selection.media-library-selection-col-6 > .media-library-widget-modal .media-library-item--grid,
+  .nnd-media-library-selection.media-library-selection-col-6 .media-library-item--grid {
+    width: 16.6%;
+  }
+
+  /* The selected items in the add form should be shown a bit smaller. */
+  .nnd-media-library-selection.media-library-selection-col-6 > .media-library-add-form__selected-media .media-library-item--small {
+    width: 16.6%;
+  }
+
+  .nnd-media-library-selection.media-library-selection-col-5 > .media-library-item--grid {
+    width: 20%;
+  }
+
+  /* Change the width for the modal and widget since there is less space. */
+  .nnd-media-library-selection.media-library-selection-col-5 > .media-library-widget-modal .media-library-item--grid,
+  .nnd-media-library-selection.media-library-selection-col-5 .media-library-item--grid {
+    width: 20%;
+  }
+
+  /* The selected items in the add form should be shown a bit smaller. */
+  .nnd-media-library-selection.media-library-selection-col-5 > .media-library-add-form__selected-media .media-library-item--small {
+    width: 20%;
+  }
+
+  .nnd-media-library-selection.media-library-selection-col-3 > .media-library-item--grid {
+    width: 33.3%;
+  }
+
+  /* Change the width for the modal and widget since there is less space. */
+  .nnd-media-library-selection.media-library-selection-col-3 > .media-library-widget-modal .media-library-item--grid,
+  .nnd-media-library-selection.media-library-selection-col-3 .media-library-item--grid {
+    width: 33.3%;
+  }
+
+  /* The selected items in the add form should be shown a bit smaller. */
+  .nnd-media-library-selection.media-library-selection-col-3 > .media-library-add-form__selected-media .media-library-item--small {
+    width: 33.3%;
+  }
+
+  .nnd-media-library-selection.media-library-selection-col-2 > .media-library-item--grid {
+    width: 50%;
+  }
+
+  /* Change the width for the modal and widget since there is less space. */
+  .nnd-media-library-selection.media-library-selection-col-2 > .media-library-widget-modal .media-library-item--grid,
+  .nnd-media-library-selection.media-library-selection-col-2 .media-library-item--grid {
+    width: 50%;
+  }
+
+  /* The selected items in the add form should be shown a bit smaller. */
+  .nnd-media-library-selection.media-library-selection-col-2 > .media-library-add-form__selected-media .media-library-item--small {
+    width: 50%;
+  }
+
+  .nnd-media-library-selection.media-library-selection-col-1 > .media-library-item--grid {
+    width: 100%;
+  }
+
+  /* Change the width for the modal and widget since there is less space. */
+  .nnd-media-library-selection.media-library-selection-col-1 > .media-library-widget-modal .media-library-item--grid,
+  .nnd-media-library-selection.media-library-selection-col-1 .media-library-item--grid {
+    width: 100%;
+  }
+
+  /* The selected items in the add form should be shown a bit smaller. */
+  .nnd-media-library-selection.media-library-selection-col-1 > .media-library-add-form__selected-media .media-library-item--small {
+    width: 100%;
+  }
+}
+
+.media-library-selection.nnd-media-library-selection.media-library-selection-widget .media-library-item__attributes,
+.nnd-media-library-selection.media-library-selection-widget .form-item {
+  display: none;
+}
+
+.media-library-selection.nnd-media-library-selection .media-library-item__preview {
+  padding-bottom: 0;
+}
+
+.nnd-media-library-selection .ajax-progress {
+  position: absolute;
+  z-index: 9999;
+}
+
+.media-library-selection-border {
+  border: 1px solid #bfbfbf;
+}
+
+.media-library-selection.nnd-media-library-selection .media-library-item__remove {
+  display: none;
+}
+
+.media-library-selection-widget .media-library-item > .form-wrapper:hover > .media-library-item__remove {
+  display: block;
+}
+
+.media-library-selection-widget .media-library-item:hover > .media-library-item__remove {
+  display: block;
+}
+
+.nnd-media-library legend {
+  margin-bottom: 0px;
+}
+
+.nnd-media-library.form-item{
+  margin: 0;
+}

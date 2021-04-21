@@ -6,7 +6,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\nnd_component\Plugin\ContentFormBase;
 
 /**
- * Class Landing_Page
+ * Class Landing Page
  *
  * @ContentWidgetAnnotation(
  *   id = "content_form_landing_page",
