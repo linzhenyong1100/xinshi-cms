@@ -3,7 +3,7 @@
 namespace Drupal\nnd_component\Plugin\ContentForm;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\nnd_component\Plugin\ContentFormBase;
+use Drupal\nnd_component\Plugin\BlockContentFormBase;
 
 /**
  * Class Showcase_3v1
@@ -21,18 +21,13 @@ use Drupal\nnd_component\Plugin\ContentFormBase;
  *   },
  * )
  */
-class Showcase_3v1 extends ContentFormBase {
+class Showcase_3v1 extends BlockContentFormBase {
 
   /**
    * {@inheritdoc}
    */
   public function formAlter(&$form, FormStateInterface $form_state) {
     // TODO: Implement alter() method.
-    $form['icon']['#states'] = [
-      'visible' => ['select[name="title_style"]' => ['value' => 'style-v2']],
-    ];
-    $form['icon']['widget'][0]['value']['#states'] = [
-      'required' => ['select[name="title_style"]' => ['value' => 'style-v2']],
-    ];
+    parent::formAlter($form, $form_state);
   }
 }

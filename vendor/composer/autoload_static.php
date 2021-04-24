@@ -713,6 +713,7 @@ class ComposerStaticInit73cbcc18c7ade12b47b0cb4c4b2b2ff8
         'Acquia\\LightningExtension\\Context\\ViewsContext' => __DIR__ . '/../..' . '/docroot/modules/contrib/lightning_core/tests/contexts/ViewsContext.behat.inc',
         'Acquia\\Lightning\\Composer\\ConfigureLegacyProject' => __DIR__ . '/../..' . '/docroot/profiles/contrib/lightning/src/Composer/ConfigureLegacyProject.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Drupal' => __DIR__ . '/../..' . '/docroot/core/lib/Drupal.php',
         'DrupalFinder\\DrupalFinder' => __DIR__ . '/..' . '/webflo/drupal-finder/src/DrupalFinder.php',
         'Drupal\\Component\\Utility\\Timer' => __DIR__ . '/../..' . '/docroot/core/lib/Drupal/Component/Utility/Timer.php',
