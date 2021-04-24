@@ -82,14 +82,20 @@ class NodeJson extends EntityJsonBase {
     $banner['style'] = $this->entity->get('banner_style')->isEmpty() ? 'normal' : $this->entity->get('banner_style')->value;
 
     $media = $this->entity->get('media')->entity;
-    $banner['bannerBg'] = [
-      'classes' => 'bg-fill-width',
-      'img' => [
-        'hostClasses' => 'bg-center',
-        'src' => $media ? CommonUtil::getImageStyle($media->get('field_media_image')->target_id) : '',
-        'alt' => $media ? $media->label() : '',
-      ],
-    ];
+    $img = $media ? CommonUtil::getImageStyle($media->get('field_media_image')->target_id) : '';
+    if ($img) {
+      $banner['bannerBg'] = [
+        'classes' => 'bg-fill-width',
+        'img' => [
+          'hostClasses' => 'bg-center',
+          'src' => $img,
+          'alt' => $media ? $media->label() : '',
+        ],
+      ];
+    } else {
+      $banner['style'] = 'no-bg';
+    }
+
     $banner['title'] = $this->entity->label();
     $banner['breadcrumb'] = [
     ];
