@@ -37,7 +37,8 @@
         "drupal/swiftmailer": "^2.0",
         "drupal/paragraphs": "^1.12",
         "drupal/jsonapi_include": "^1.4",
-        "drupal/menu_breadcrumb": "^1.14"
+        "drupal/menu_breadcrumb": "^1.14",
+        "drupal/chosen": "^3.0"
     },
     "require-dev": {
         "drush/drush": ">=9.7",

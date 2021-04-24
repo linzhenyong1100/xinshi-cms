@@ -16,6 +16,7 @@ return array(
     'Acquia\\LightningExtension\\Context\\ViewsContext' => $baseDir . '/docroot/modules/contrib/lightning_core/tests/contexts/ViewsContext.behat.inc',
     'Acquia\\Lightning\\Composer\\ConfigureLegacyProject' => $baseDir . '/docroot/profiles/contrib/lightning/src/Composer/ConfigureLegacyProject.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Drupal' => $baseDir . '/docroot/core/lib/Drupal.php',
     'DrupalFinder\\DrupalFinder' => $vendorDir . '/webflo/drupal-finder/src/DrupalFinder.php',
     'Drupal\\Component\\Utility\\Timer' => $baseDir . '/docroot/core/lib/Drupal/Component/Utility/Timer.php',
