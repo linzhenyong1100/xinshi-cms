@@ -6,22 +6,22 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\nnd_component\Plugin\BlockContentFormBase;
 
 /**
- * Class Showcase_3v2
+ * Class Shuffle
  *
  * @ContentWidgetAnnotation(
- *   id = "content_form_showcase_3v2",
- *   label = @Translation("Showcase 3v2"),
- *   admin_label = @Translation("Showcase 3v2"),
- *   description = @Translation("Showcase 3v2"),
- *   entity = "block_content:showcase_3v2",
+ *   id = "content_form_shuffle",
+ *   label = @Translation("Shuffle"),
+ *   admin_label = @Translation("Shuffle"),
+ *   description = @Translation("Shuffle"),
+ *   entity = "block_content:shuffle",
  *   plugin_path = {
  *     "type" = "module",
  *     "name" = "content_form",
- *     "directory" = "src/Plugin/ContentForm/Showcase_3v2",
+ *     "directory" = "src/Plugin/ContentForm/Shuffle",
  *   },
  * )
  */
-class Showcase_3v2 extends BlockContentFormBase {
+class Shuffle extends BlockContentFormBase {
 
   /**
    * {@inheritdoc}

@@ -3,7 +3,7 @@
 namespace Drupal\nnd_component\Plugin\ContentForm;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\nnd_component\Plugin\ContentFormBase;
+use Drupal\nnd_component\Plugin\BlockContentFormBase;
 
 /**
  * Class Carousel_1v2
@@ -21,18 +21,13 @@ use Drupal\nnd_component\Plugin\ContentFormBase;
  *   },
  * )
  */
-class Carousel_1v2 extends ContentFormBase {
+class Carousel_1v2 extends BlockContentFormBase {
 
   /**
    * {@inheritdoc}
    */
   public function formAlter(&$form, FormStateInterface $form_state) {
     // TODO: Implement alter() method.
-    $form['icon']['#states'] = [
-      'visible' => ['select[name="title_style"]' => ['value' => 'style-v2']],
-    ];
-    $form['icon']['widget'][0]['value']['#states'] = [
-      'required' => ['select[name="title_style"]' => ['value' => 'style-v2']],
-    ];
+    parent::formAlter($form, $form_state);
   }
 }
