@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '2a33f99ed73a768f5ea344495aa384a3fbc6d85d',
+    'reference' => '2fd163cb8e8e40c29173fdf9243bdf997bae8865',
     'name' => 'acquia/lightning-project',
   ),
   'versions' => 
@@ -51,7 +51,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '2a33f99ed73a768f5ea344495aa384a3fbc6d85d',
+      'reference' => '2fd163cb8e8e40c29173fdf9243bdf997bae8865',
     ),
     'asm89/stack-cors' => 
     array (
@@ -2009,12 +2009,12 @@ private static $installed = array (
     ),
     'drupal/viewsreference' => 
     array (
-      'pretty_version' => '1.6.0',
-      'version' => '1.6.0.0',
+      'pretty_version' => '2.0.0-beta2',
+      'version' => '2.0.0.0-beta2',
       'aliases' => 
       array (
       ),
-      'reference' => '8.x-1.6',
+      'reference' => '8.x-2.0-beta2',
     ),
     'drupal/workflows' => 
     array (
@@ -2745,15 +2745,6 @@ private static $installed = array (
       array (
         0 => '*',
       ),
-    ),
-    'squizlabs/php_codesniffer' => 
-    array (
-      'pretty_version' => '3.5.8',
-      'version' => '3.5.8.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '9d583721a7157ee997f235f327de038e7ea6dac4',
     ),
     'stack/builder' => 
     array (
