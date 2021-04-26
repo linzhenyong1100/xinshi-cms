@@ -1,6 +1,8 @@
 <?php
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\InvokeCommand;
 
 function nnd_component_preprocess_block(&$variables) {
   if ($variables['base_plugin_id'] == 'block_content' && isset($variables['content']['#block_content']) && $variables['content']['#block_content']) {
@@ -33,4 +35,57 @@ function nnd_component_form_node_form_alter(&$form, FormStateInterface $form_sta
       $plugin->formAlter($form, $form_state);
     }
   }
+}
+
+
+/**
+ * View reference field display change callback.
+ * @param $form
+ * @param FormStateInterface $form_state
+ * @return AjaxResponse
+ */
+function _nnd_component_views_display_change_callback($form, FormStateInterface $form_state) {
+  if (empty($value = $form_state->getTriggeringElement()['#value'])) {
+    $response = new AjaxResponse();
+    return $response;
+  }
+  $element = $form_state->getTriggeringElement()['#array_parents'];
+  unset($element[count($element) - 1]);
+  $element[] = 'options';
+  $element[] = 'custom_argument';
+  $argument = $form;
+  foreach ($element as $value) {
+    $argument = $argument[$value];
+  }
+  return $argument;
+}
+
+/**
+ * View reference field argument change callback.
+ * @param $form
+ * @param FormStateInterface $form_state
+ * @return AjaxResponse
+ */
+function _nnd_component_views_argument_change_callback($form, FormStateInterface $form_state) {
+  $element = $form_state->getTriggeringElement()['#array_parents'];
+  unset($element[count($element) - 1]);
+  $keys = [];
+  $selector = $element[0];
+  foreach ($element as $key => $item) {
+    if (is_numeric($item) || !in_array($item, ['widget'])) {
+      $keys[] = $item;
+    }
+    if ($key > 0 && (is_numeric($item) || !in_array($item, ['widget', 'custom_argument']))) {
+      $selector .= "[$item]";
+    }
+  }
+  $values = [];
+
+  foreach ($form_state->getValue(array_merge($keys)) as $key => $item) {
+    $value = $item ?: 'all';
+    $values[] = is_array($value) ? join("+", $value) : $value;
+  }
+  $response = new AjaxResponse();
+  $response->addCommand(new InvokeCommand("input[name='{$selector}[argument]']", 'val', [join('/', $values)]));
+  return $response;
 }

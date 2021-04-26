@@ -56,7 +56,7 @@ class EntityJsonBase implements EntityJsonInterface {
    * Set Full text value.
    * @param $data
    */
-  private function setFullText(&$data) {
+  public function setFullText(&$data) {
     foreach ($data as $key => &$val) {
       if (is_array($val)) {
         if (count($val) == 2 && isset($val['dataType']) && isset($val['data'])) {
