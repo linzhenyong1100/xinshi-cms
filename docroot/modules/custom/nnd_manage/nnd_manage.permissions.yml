@@ -1,0 +1,7 @@
+restore trash content:
+  title: 'Restore trash content'
+  description: 'Allow to restore trash content.'
+purge trash content:
+  title: 'Purge trash content'
+  description: 'Allow to purge trash content.'
+
