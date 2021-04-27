@@ -8,10 +8,14 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\multiversion\Entity\WorkspaceInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 
-class WorkspaceManager implements WorkspaceManagerInterface {
+class WorkspaceManager implements WorkspaceManagerInterface, ContainerAwareInterface {
   use StringTranslationTrait;
+  use ContainerAwareTrait;
 
   /**
    * @var \Symfony\Component\HttpFoundation\RequestStack
@@ -31,7 +35,7 @@ class WorkspaceManager implements WorkspaceManagerInterface {
   /**
    * @var array
    */
-  protected $negotiators = array();
+  protected $negotiators = [];
 
   /**
    * @var array
@@ -93,13 +97,25 @@ class WorkspaceManager implements WorkspaceManagerInterface {
    * @todo {@link https://www.drupal.org/node/2600382 Access check.}
    */
   public function getActiveWorkspace() {
+    $workspace_id = $this->getActiveWorkspaceId();
+    if ($workspace = $this->load($workspace_id)) {
+      return $workspace;
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getActiveWorkspaceId() {
     $request = $this->requestStack->getCurrentRequest();
+    if (empty($request)) {
+      return $this->container->getParameter('workspace.default');
+    }
+
     foreach ($this->getSortedNegotiators() as $negotiator) {
       if ($negotiator->applies($request)) {
         if ($workspace_id = $negotiator->getWorkspaceId($request)) {
-          if ($workspace = $this->load($workspace_id)) {
-            return $workspace;
-          }
+          return $workspace_id;
         }
       }
     }
@@ -109,11 +125,16 @@ class WorkspaceManager implements WorkspaceManagerInterface {
    * {@inheritdoc}
    */
   public function setActiveWorkspace(WorkspaceInterface $workspace) {
-    $default_workspace_id = \Drupal::getContainer()->getParameter('workspace.default');
+    // Unpublished workspaces should not be allowed to be active.
+    if (!$workspace->isPublished()) {
+      $this->logger->error('The workspace {workspace} has been archived.', ['workspace' => $workspace->label()]);
+      throw new InvalidParameterException('Archived workspaces cannot be set as the active workspace.');
+    }
+
     // If the current user doesn't have access to view the workspace, they
     // shouldn't be allowed to switch to it.
     // @todo Could this be handled better?
-    if (!$workspace->access('view') && ($workspace->id() != $default_workspace_id)) {
+    if (!$workspace->access('view') && !$workspace->isDefaultWorkspace()) {
       $this->logger->error('Denied access to view workspace {workspace}', ['workspace' => $workspace->label()]);
       throw new WorkspaceAccessException('The user does not have permission to view that workspace.');
     }
@@ -142,7 +163,7 @@ class WorkspaceManager implements WorkspaceManagerInterface {
       krsort($this->negotiators);
       // Merge nested negotiators from $this->negotiators into
       // $this->sortedNegotiators.
-      $this->sortedNegotiators = array();
+      $this->sortedNegotiators = [];
       foreach ($this->negotiators as $builders) {
         $this->sortedNegotiators = array_merge($this->sortedNegotiators, $builders);
       }

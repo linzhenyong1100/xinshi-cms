@@ -4,9 +4,10 @@ namespace Drupal\multiversion\Entity;
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityChangedInterface;
+use Drupal\Core\Entity\EntityPublishedInterface;
 use Drupal\user\EntityOwnerInterface;
 
-interface WorkspaceInterface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface {
+interface WorkspaceInterface extends ContentEntityInterface, EntityChangedInterface, EntityOwnerInterface, EntityPublishedInterface {
 
   /**
    * Returns the last sequence ID in the workspace's sequence index.
@@ -41,5 +42,29 @@ interface WorkspaceInterface extends ContentEntityInterface, EntityChangedInterf
    *   Machine name of the workspace.
    */
   public function getMachineName();
+
+  /**
+   * Determines whether the workspace is the default one or not.
+   *
+   * @return bool
+   *   TRUE if this workspace is the default one (e.g 'Live'), FALSE otherwise.
+   */
+  public function isDefaultWorkspace();
+
+  /**
+   * Specifies that the workspace is queued for delete on next cron run.
+   *
+   * @param bool $queued
+   *
+   * @return mixed
+   */
+  public function setQueuedForDelete($queued = TRUE);
+
+  /**
+   * Returns the queued for delete flag.
+   *
+   * @return bool
+   */
+  public function getQueuedForDelete();
 
 }

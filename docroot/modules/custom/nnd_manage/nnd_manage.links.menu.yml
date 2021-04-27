@@ -1,0 +1,5 @@
+nnd_manage.flush_all_caches:
+  title: 'Flush all caches'
+  route_name: admin_toolbar_tools.flush
+  weight: -9
+  menu_name: manage

@@ -19,7 +19,7 @@ class CcmsMenuForm extends MenuForm {
     $current_path = \Drupal::request()->getPathInfo();
     if(preg_match('#^/manage/#', $current_path)) {
       foreach ($form as $id => &$item) {
-        if(!empty($item['operations']['#links'])){
+        if(!empty($item['operations']['#links']) && strpos($id,'menu_link_content')){
           $item['operations']['#links']['edit']['url'] = Url::fromRoute('dyniva_core.manage_menu.item_edit',$item['operations']['#links']['edit']['url']->getRouteParameters());
           $item['operations']['#links']['delete']['url'] = Url::fromRoute('dyniva_core.manage_menu.item_delete',$item['operations']['#links']['delete']['url']->getRouteParameters());
         }

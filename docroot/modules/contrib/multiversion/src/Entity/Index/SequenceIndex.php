@@ -93,7 +93,7 @@ class SequenceIndex implements SequenceIndexInterface {
    */
   protected function sortedSetStore($workspace_id = null) {
     if (!$workspace_id) {
-      $workspace_id = $this->workspaceId ?: $this->workspaceManager->getActiveWorkspace()->id();
+      $workspace_id = $this->workspaceId ?: $this->workspaceManager->getActiveWorkspaceId();
     }
     return $this->sortedSetFactory->get($this->collectionPrefix . $workspace_id);
   }
@@ -103,7 +103,7 @@ class SequenceIndex implements SequenceIndexInterface {
    * @return array
    */
   protected function buildRecord(ContentEntityInterface $entity) {
-    return array(
+    return [
       'entity_type_id' => $entity->getEntityTypeId(),
       'entity_id' => $entity->id(),
       'entity_uuid' => $entity->uuid(),
@@ -113,7 +113,7 @@ class SequenceIndex implements SequenceIndexInterface {
       'seq' => $this->multiversionManager->newSequenceId(),
       'local' => (boolean) $entity->getEntityType()->get('local'),
       'is_stub' => (boolean) $entity->_rev->is_stub,
-    );
+    ];
   }
 
 }
