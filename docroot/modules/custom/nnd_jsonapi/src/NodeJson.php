@@ -9,6 +9,7 @@
 namespace Drupal\nnd_jsonapi;
 
 use Drupal\nnd_component\CommonUtil;
+use Drupal\Component\Serialization\Json;
 
 /**
  * Class NodeJson
@@ -26,7 +27,7 @@ class NodeJson extends EntityJsonBase {
         return $this->landingPageType();
         break;
       default:
-        return parent::getContent();
+        return $this->getNodeContent();
     }
   }
 
@@ -101,5 +102,39 @@ class NodeJson extends EntityJsonBase {
     ];
     $data['body'][] = $banner;
   }
+
+  private function getNodeContent() {
+    $data = [];
+    $build = $this->entityTypeManager->getViewBuilder($this->entity->getEntityTypeId())->view($this->entity);
+
+    $panels = [];
+    if (isset($build['#panels_display']) && isset($build['content']['content'])) {
+      foreach ($build['content']['content'] as $key => $content) {
+        if (strpos($key, '#') === 0) {
+          continue;
+        }
+        switch ($content['#base_plugin_id']) {
+          case 'views_block':
+            $panels[$content['content']['#name'] . '_' . $content['content']['#display_id']] = [
+              'rows' => $content['content']['view_build']['#rows'][0]['#rows'],
+              'title' => $content['#configuration']['views_label'] ? $content['#configuration']['views_label'] : $content['content']['#title']['#markup']];
+            break;
+        }
+      }
+    }
+    \Drupal::service('entity_theme_engine.entity_widget_service')->entityViewAlter($build, $this->entity, 'json');
+    foreach ($panels as $key => $panel) {
+      $build['content']['#context'][$key] = $panel;
+    }
+    unset($build['#prefix']);
+    unset($build['#suffix']);
+    $content = render($build);
+    if ($str = $content->jsonSerialize()) {
+      $data = Json::decode(htmlspecialchars_decode($str));
+      parent::setFullText($data);
+    }
+    return $data ? $data : [];
+  }
+
 
 }
