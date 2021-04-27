@@ -1,10 +1,32 @@
 <?php
 
 use Drupal\Core\Entity\ContentEntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\multiversion\Entity\Storage\ContentEntityStorageInterface;
+use Drupal\multiversion\MultiversionManager;
+use Drupal\multiversion\Redirect\RedirectStorageSchema;
 use Drupal\multiversion\Entity\Workspace;
 use Drupal\Core\Database\Database;
-use \Drupal\Core\Database\Driver\mysql\Connection;
+use Drupal\Core\Database\Driver\mysql\Connection;
 use Drupal\multiversion\MultiversionMigration;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+
+/**
+ * Implements hook_requirements().
+ */
+function multiversion_requirements($phase) {
+  $requirements = [];
+  if ($phase === 'install') {
+    if (\Drupal::moduleHandler()->moduleExists('workspaces')) {
+      $requirements['workspaces_incompatibility'] = [
+        'severity' => REQUIREMENT_ERROR,
+        'description' => t('Multiversion can not be installed when Workspaces is also installed.'),
+      ];
+    }
+  }
+
+  return $requirements;
+}
 
 /**
  * Implements hook_install().
@@ -12,9 +34,14 @@ use Drupal\multiversion\MultiversionMigration;
 function multiversion_install() {
   // Create default workspace.
   Workspace::create(['machine_name' => 'live', 'label' => 'Live', 'type' => 'basic'])->save();
+
   /** @var \Drupal\multiversion\MultiversionManagerInterface $manager */
   $manager = \Drupal::getContainer()->get('multiversion.manager');
   $manager->enableEntityTypes();
+
+  _multiversion_update_uuid_fields();
+
+  _multiversion_add_workspace_field_in_url_alias_table(TRUE);
 }
 
 /**
@@ -22,6 +49,42 @@ function multiversion_install() {
  */
 function multiversion_uninstall() {
   \Drupal::state()->delete('multiversion_enabled');
+
+  // When the module is being uninstalled, we need to signal
+  // multiversion_field_info_alter() not to alter the field type classes
+  // anymore, so we ca properly update UUID fields.
+  \Drupal::state()->set('multiversion_uninstalling', TRUE);
+  _multiversion_update_uuid_fields();
+  \Drupal::state()->delete('multiversion_uninstalling');
+
+  $database = \Drupal::database();
+  $schema = $database->schema();
+  $table = 'url_alias';
+  $field = 'workspace';
+  if ($schema->fieldExists($table, $field)) {
+    $schema->dropField($table, $field);
+  }
+}
+
+/**
+ * Updates the field type class for UUID fields when the module is un/installed.
+ */
+function _multiversion_update_uuid_fields() {
+  \Drupal::service('plugin.manager.field.field_type')->clearCachedDefinitions();
+  $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+
+  $field_map = \Drupal::service('entity_field.manager')->getFieldMap();
+  foreach ($field_map as $entity_type_id => $entity_type_field_map) {
+    foreach ($entity_type_field_map as $field_name => $field_info) {
+      if ($field_info['type'] === 'uuid') {
+        $original_storage_definition = $entity_definition_update_manager->getFieldStorageDefinition($field_name, $entity_type_id);
+        if ($original_storage_definition instanceof BaseFieldDefinition) {
+          $field_storage_definition = BaseFieldDefinition::createFromFieldStorageDefinition($original_storage_definition);
+          $entity_definition_update_manager->updateFieldStorageDefinition($field_storage_definition);
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -38,10 +101,10 @@ function multiversion_update_8001() {
     $entities = $manager->getSupportedEntityTypes();
 
     // Field can't be NOT NULL on an table with existing data.
-    $field = array(
+    $field = [
       'type' => 'int',
       'unsigned' => TRUE,
-    );
+    ];
 
     // Loop through each one.
     foreach ($entities as $entity_type => $entity) {
@@ -65,13 +128,13 @@ function multiversion_update_8001() {
         $table_revision = $entity_type . '_field_revision';
       }
 
-      $results = array();
+      $results = [];
       // Pull data from the old table.
       $old_data_table = $entity_type . '__workspace';
 
       if ($schema->tableExists($old_data_table)){
         $results = $connection->select($old_data_table)
-          ->fields($old_data_table, array('entity_id', 'workspace_target_id'))
+          ->fields($old_data_table, ['entity_id', 'workspace_target_id'])
           ->execute()->fetchAll();
       }
 
@@ -84,7 +147,7 @@ function multiversion_update_8001() {
         foreach ($results as $result) {
           // Add the value to the new column.
           $connection->update($table_base)
-            ->fields(array('workspace' => $result->workspace_target_id))
+            ->fields(['workspace' => $result->workspace_target_id])
             ->condition($field_id, $result->entity_id, '=')
             ->execute();
         }
@@ -95,17 +158,17 @@ function multiversion_update_8001() {
         $schema->dropTable($old_data_table);
       }
 
-      $results = array();
+      $results = [];
       // Pull data from old table.
       $old_revision_table = $entity_type . '_revision__workspace';
 
       if ($schema->tableExists($old_revision_table)) {
         $results = $connection->select($old_revision_table)
-          ->fields($old_revision_table, array(
+          ->fields($old_revision_table, [
             'entity_id,',
             'revision_id',
             'workspace_target_id'
-          ))
+          ])
           ->execute();
       }
 
@@ -118,7 +181,7 @@ function multiversion_update_8001() {
         foreach ($results as $result) {
           // Add data to the revision table.
           $connection->update($table_revision)
-            ->fields(array('workspace' => $result->workspace_target_id))
+            ->fields(['workspace' => $result->workspace_target_id])
             ->condition($field_id, $result->entity_id, '=')
             ->condition($field_revision, $result->revision_id)
             ->execute();
@@ -151,7 +214,8 @@ function multiversion_update_8004() {
       // Create a new migration and migrate user entities to the temporary storage.
       $migration = MultiversionMigration::create(\Drupal::getContainer(), $entity_type_manager);
       $migration->installDependencies();
-      $migration->migrateContentToTemp($entity_type);
+      $field_map = $migration->getFieldMap($entity_type, MultiversionManager::OP_DISABLE, MultiversionManager::TO_TMP);
+      $migration->migrateContentToTemp($entity_type, $field_map);
       // Remove all data from the old storage.
       $migration->emptyOldStorage($storage);
 
@@ -164,9 +228,10 @@ function multiversion_update_8004() {
       }
 
       // Apply new updates.
-      $migration->applyNewStorage();
+      $migration->applyNewStorage(['user']);
       // Migrate content from the temporary storage to the new storage.
-      $migration->migrateContentFromTemp($entity_type);
+      $field_map = $migration->getFieldMap($entity_type, MultiversionManager::OP_DISABLE, MultiversionManager::FROM_TMP);
+      $migration->migrateContentFromTemp($entity_type, $field_map);
       $migration->cleanupMigration('user__to_tmp');
       $migration->cleanupMigration('user__from_tmp');
       $migration->uninstallDependencies();
@@ -263,8 +328,11 @@ function multiversion_update_8007() {
       if (!$table_revision && in_array($entity_type_id . '_field_revision', $tables)) {
         $table_revision = $entity_type_id . '_field_revision';
       }
+      elseif (!$table_revision && in_array($entity_type_id . '_revision', $tables)) {
+        $table_revision = $entity_type_id . '_revision';
+      }
 
-      if ($schema->tableExists($table_base)) {
+      if ($schema->tableExists($table_base) && $table_revision) {
         // Get data from base table.
         $table_base_results = $connection->select($table_base)
           ->fields($table_base)
@@ -336,4 +404,247 @@ function multiversion_update_8007() {
       }
     }
   }
+}
+
+/**
+ * Make langcode primary key in base data table and base revision table.
+ */
+function multiversion_update_8101() {
+  $schema = Database::getConnection()->schema();
+  $entity_types = \Drupal::service('multiversion.manager')->getSupportedEntityTypes();
+  /** @var ContentEntityTypeInterface $entity_type */
+  foreach ($entity_types as $entity_type) {
+    if ($entity_type->id() === 'file' || $entity_type->get('local') == TRUE || empty($entity_type->getKey('langcode'))) {
+      continue;
+    }
+    // Get the tables name used for base table and revision table.
+    $table_base = ($entity_type->isTranslatable()) ? $entity_type->getDataTable() : $entity_type->getBaseTable();
+    $table_revision = ($entity_type->isTranslatable()) ? $entity_type->getRevisionDataTable() : $entity_type->getRevisionTable();
+    if ($table_base) {
+      $schema->dropPrimaryKey($table_base);
+      $schema->addPrimaryKey($table_base, [$entity_type->getKey('id'), 'langcode']);
+    }
+    if ($table_revision) {
+      $schema->dropPrimaryKey($table_revision);
+      $schema->addPrimaryKey($table_revision, [$entity_type->getKey('revision'), 'langcode']);
+    }
+  }
+}
+
+/**
+ * Make _deleted and _rev field non-translatable.
+ */
+function multiversion_update_8102() {
+  $entity_types = \Drupal::service('multiversion.manager')->getSupportedEntityTypes();
+  $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  foreach ($entity_types as $entity_type_id => $entity_type) {
+    $enabled = \Drupal::state()->get('multiversion.migration_done.' . $entity_type_id, FALSE);
+    if ($enabled) {
+      foreach (['_deleted', '_rev'] as $field_name) {
+        $field_storage_definition = $entity_definition_update_manager->getFieldStorageDefinition($field_name, $entity_type_id);
+        if ($field_storage_definition) {
+          $field_storage_definition->setTranslatable(FALSE);
+          $entity_definition_update_manager->updateFieldStorageDefinition($field_storage_definition);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Enable poll and poll_choices.
+ */
+function multiversion_update_8103() {
+  if (\Drupal::moduleHandler()->moduleExists('poll')) {
+    $manager = \Drupal::entityTypeManager();
+    $entity_types = [];
+    foreach (['poll_choice', 'poll'] as $id) {
+      $entity_type = $manager->getStorage($id)->getEntityType();
+      if ($entity_type instanceof ContentEntityTypeInterface) {
+        $entity_types[$id] = $entity_type;
+      }
+    }
+    if (!empty($entity_types)) {
+      \Drupal::service('multiversion.manager')->enableEntityTypes($entity_types);
+    }
+  }
+}
+
+/**
+ * Use two different settings, one for supported and one for enabled entity types.
+ */
+function multiversion_update_8104() {
+  $multiversion_settings = \Drupal::configFactory()->getEditable('multiversion.settings');
+  $supported = [
+    'node',
+    'taxonomy_term',
+    'comment',
+    'menu_link_content',
+    'block_content',
+    'file',
+    'media',
+    'shortcut',
+    'entity_test',
+    'entity_test_rev',
+    'entity_test_mul',
+    'entity_test_mulrev',
+    'entity_test_local',
+    'content_moderation_state',
+    'replication_log',
+    'paragraph',
+    'poll',
+    'poll_choice',
+  ];
+  $multiversion_settings->set('supported_entity_types', $supported)->save();
+  $entity_types = \Drupal::entityTypeManager()->getDefinitions();
+  $enabled_entity_types = [];
+  foreach ($entity_types as $entity_type_id => $entity_type) {
+    if (is_subclass_of($entity_type->getStorageClass(), ContentEntityStorageInterface::class)) {
+      $enabled_entity_types[] = $entity_type_id;
+    }
+  }
+  $multiversion_settings->set('enabled_entity_types', $enabled_entity_types)->save();
+}
+
+/**
+ * Fix the migration status for already enabled entity types.
+ */
+function multiversion_update_8105() {
+  $entity_types = \Drupal::entityTypeManager()->getDefinitions();
+  foreach ($entity_types as $entity_type_id => $entity_type) {
+    if (is_subclass_of($entity_type->getStorageClass(), ContentEntityStorageInterface::class)) {
+      \Drupal::state()->set("multiversion.migration_done.$entity_type_id", TRUE);
+    }
+  }
+}
+
+/**
+ * Resolve all conflicts for local entities, these entities have been excluded
+ * from conflict tracking.
+ */
+function multiversion_update_8106() {
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $conflict_tracker = \Drupal::service('workspace.conflict_tracker');
+  $revision_index = \Drupal::service('multiversion.entity_index.rev');
+  $workspaces = $entity_type_manager->getStorage('workspace')->loadMultiple();
+  // Load conflicts from all workspaces.
+  foreach ($workspaces as $id => $workspace) {
+    $conflicts = $conflict_tracker
+      ->useWorkspace($workspace)
+      ->getAll();
+    foreach ($conflicts as $uuid => $conflict) {
+      $conflict_keys = array_keys($conflict);
+      $rev = reset($conflict_keys);
+      $rev_info = $revision_index
+        ->useWorkspace($id)
+        ->get("$uuid:$rev");
+
+      if (!empty($rev_info['entity_type_id'])) {
+        $entity_type = $entity_type_manager
+          ->getStorage($rev_info['entity_type_id'])
+          ->getEntityType();
+
+        // Resolve conflicts for local entity types.
+        if ($entity_type->get('local') === TRUE) {
+          $conflict_tracker->resolveAll($uuid);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Add a publishing status field for workspace entities.
+ */
+function multiversion_update_8107() {
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+
+  // Add the published entity key to the workspace entity type.
+  $entity_type = $definition_update_manager->getEntityType('workspace');
+  $entity_keys = $entity_type->getKeys();
+  $entity_keys['published'] = 'published';
+  $entity_type->set('entity_keys', $entity_keys);
+  $definition_update_manager->updateEntityType($entity_type);
+
+  // Add the publishing status field to the workspace entity type.
+  $status = BaseFieldDefinition::create('boolean')
+    ->setLabel(new TranslatableMarkup('Publishing status'))
+    ->setDescription(new TranslatableMarkup('A boolean indicating the published state.'))
+    ->setRevisionable(TRUE)
+    ->setTranslatable(TRUE)
+    ->setDefaultValue(TRUE)
+    ->setInitialValue(TRUE);
+
+  $definition_update_manager->installFieldStorageDefinition('published', 'workspace', 'workspace', $status);
+
+}
+
+/**
+ * Add workspace field in url_alias table.
+ */
+function multiversion_update_8108() {
+  _multiversion_add_workspace_field_in_url_alias_table();
+}
+
+/**
+ * Enable redirect entity type.
+ */
+function multiversion_update_8109() {
+  if (\Drupal::moduleHandler()->moduleExists('redirect')) {
+    $entity_type_id = 'redirect';
+    $update_manager = \Drupal::entityDefinitionUpdateManager();
+    // Get the current redirect entity type definition, ensure the storage schema
+    // class is set.
+    $entity_type = $update_manager->getEntityType($entity_type_id)
+      ->setHandlerClass('storage_schema', RedirectStorageSchema::class);
+    // Update entity type.
+    $update_manager->updateEntityType($entity_type);
+
+    if (\Drupal::moduleHandler()->moduleExists('redirect')) {
+      $multiversion_settings = \Drupal::configFactory()->getEditable('multiversion.settings');
+      $supported_entity_types = $multiversion_settings->get('supported_entity_types') ?: [];
+      // Check if entity type should be added to the supported entity types list.
+      if (!in_array($entity_type_id, $supported_entity_types)) {
+        $supported_entity_types[] = $entity_type_id;
+        // Add new entity types to the supported entity types list.
+        $multiversion_settings
+          ->set('supported_entity_types', $supported_entity_types)
+          ->save();
+      }
+      $manager = \Drupal::entityTypeManager();
+      $entity_types = [];
+      $entity_type = $manager->getStorage($entity_type_id)->getEntityType();
+      if ($entity_type instanceof ContentEntityTypeInterface) {
+        $entity_types[$entity_type_id] = $entity_type;
+      }
+    }
+    // Enable new entity type.
+    if (!empty($entity_types)) {
+      \Drupal::service('multiversion.manager')->enableEntityTypes($entity_types);
+    }
+  }
+}
+
+/**
+ * Add the queued_for_delete field.
+ */
+function multiversion_update_8110() {
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  // Add the queued for delete flag for the workspace entity type.
+  $queued_for_delete = BaseFieldDefinition::create('boolean')
+    ->setLabel(t('Queued for delete'))
+    ->setDescription(t('A flag that specifies if the entity has been queued for delete on next cron run.'))
+    ->setRevisionable(FALSE)
+    ->setTranslatable(FALSE)
+    ->setRequired(FALSE)
+    ->setDefaultValue(FALSE)
+    ->setInitialValue(FALSE);
+  $definition_update_manager->installFieldStorageDefinition('queued_for_delete', 'workspace', 'multiversion', $queued_for_delete);
+}
+
+/**
+ * Apply the UUID field updates.
+ */
+function multiversion_update_8111() {
+  _multiversion_update_uuid_fields();
 }

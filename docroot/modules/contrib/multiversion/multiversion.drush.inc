@@ -22,8 +22,8 @@ function multiversion_drush_command() {
       'entity_types' => dt('The list of entity types, comma or space separated.'),
     ],
     'examples' => [
-      'drush enable-entity-type my_et' => 'Makes my_et entity type multiversionable.',
-      'drush enable-entity-type my_et my_et2' => 'Makes my_et and my_et2 entity types multiversionable.',
+      'drush multiversion-enable-entity-types my_et' => 'Makes my_et entity type multiversionable.',
+      'drush multiversion-enable-entity-types my_et my_et2' => 'Makes my_et and my_et2 entity types multiversionable.',
       'drush met my_et' => 'Makes my_et entity type multiversionable.',
       'drush met my_et my_et2' => 'Makes my_et and my_et2 entity types multiversionable.',
     ],
@@ -37,8 +37,8 @@ function multiversion_drush_command() {
       'entity_types' => dt('The list of entity types, comma or space separated.'),
     ],
     'examples' => [
-      'drush disable-entity-type my_et' => 'Makes my_et entity type non-multiversionable.',
-      'drush disable-entity-type my_et1 my_et2' => 'Makes my_et and my_et2 entity types non-multiversionable.',
+      'drush multiversion-disable-entity-types my_et' => 'Makes my_et entity type non-multiversionable.',
+      'drush multiversion-disable-entity-types my_et1 my_et2' => 'Makes my_et and my_et2 entity types non-multiversionable.',
       'drush mdt my_et' => 'Makes my_et entity type non-multiversionable.',
       'drush mdt my_et1 my_et2' => 'Makes my_et and my_et2 entity types non-multiversionable.',
     ],
@@ -89,6 +89,10 @@ function drush_multiversion_uninstall() {
 
     try {
       \Drupal::service('multiversion.manager')->disableEntityTypes();
+      // Delete workspace entities before uninstall.
+      $storage = \Drupal::entityTypeManager()->getStorage('workspace');
+      $entities = $storage->loadMultiple();
+      $storage->delete($entities);
       drush_module_uninstall(['multiversion']);
     }
     catch (Exception $e) {
@@ -114,6 +118,17 @@ function drush_multiversion_enable_entity_types() {
       return drush_user_abort();
     }
     try {
+      $multiversion_settings = \Drupal::configFactory()->getEditable('multiversion.settings');
+      $supported_entity_types = $multiversion_settings->get('supported_entity_types') ?: [];
+      foreach (array_keys($entity_types) as $id) {
+        if (!in_array($id, $supported_entity_types)) {
+          $supported_entity_types[] = $id;
+        }
+      }
+      // Add new entity types to the supported entity types list.
+      $multiversion_settings
+        ->set('supported_entity_types', $supported_entity_types)
+        ->save();
       \Drupal::service('multiversion.manager')->enableEntityTypes($entity_types);
     }
     catch (Exception $e) {
@@ -128,12 +143,19 @@ function drush_multiversion_enable_entity_types() {
 function drush_multiversion_disable_entity_types() {
   $args = pm_parse_arguments(func_get_args());
   if (empty($args)) {
-    drush_log(dt('Entity types list argument is missing.'), LogLevel::ERROR);
-  }
-  elseif ($entity_types = _drush_multiversion_get_entity_types($args)) {
-    if(!drush_confirm(dt('Do you really want to continue?'))) {
+    $args = \Drupal::config('multiversion.settings')->get('enabled_entity_types') ?: [];
+    if (!drush_confirm(dt('Do you really want to disable all enabled entity types (!entity_types)?', [
+      '!entity_types' => implode(', ', array_keys(_drush_multiversion_get_entity_types($args))),
+    ]))) {
       return drush_user_abort();
     }
+  }
+  else {
+    if (!drush_confirm(dt('Do you really want to continue?'))) {
+      return drush_user_abort();
+    }
+  }
+  if (!empty($args) && $entity_types = _drush_multiversion_get_entity_types($args)) {
     try {
       \Drupal::service('multiversion.manager')->disableEntityTypes($entity_types);
     }
@@ -146,16 +168,16 @@ function drush_multiversion_disable_entity_types() {
 function _drush_multiversion_get_entity_types($entity_type_ids) {
   $entity_types = [];
   $manager = \Drupal::entityTypeManager();
-  try {
-    foreach ($entity_type_ids as $id) {
+  foreach ($entity_type_ids as $id) {
+    try {
       $entity_type = $manager->getStorage($id)->getEntityType();
       if ($entity_type instanceof ContentEntityTypeInterface) {
         $entity_types[$id] = $entity_type;
       }
     }
-  }
-  catch (Exception $e) {
-    drush_log($e->getMessage(), LogLevel::ERROR);
+    catch (Exception $e) {
+      drush_log($e->getMessage(), LogLevel::INFO);
+    }
   }
 
   return $entity_types;

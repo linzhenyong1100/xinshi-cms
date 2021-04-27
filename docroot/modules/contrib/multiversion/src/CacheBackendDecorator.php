@@ -35,7 +35,7 @@ class CacheBackendDecorator implements CacheBackendInterface {
    * @return string
    */
   protected function decorate($cid) {
-    return "$cid:" . $this->workspaceManager->getActiveWorkspace()->id();
+    return "$cid:" . $this->workspaceManager->getActiveWorkspaceId();
   }
 
   /**
@@ -59,7 +59,7 @@ class CacheBackendDecorator implements CacheBackendInterface {
   /**
    * {@inheritdoc}
    */
-  public function set($cid, $data, $expire = Cache::PERMANENT, array $tags = array()) {
+  public function set($cid, $data, $expire = Cache::PERMANENT, array $tags = []) {
     $cid = $this->decorate($cid);
     return $this->decorated->set($cid, $data, $expire, $tags);
   }

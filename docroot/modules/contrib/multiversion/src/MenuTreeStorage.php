@@ -7,7 +7,6 @@ use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\Core\Menu\MenuTreeStorage as CoreMenuTreeStorage;
-use Drupal\multiversion\Entity\MenuLinkContent;
 
 class MenuTreeStorage extends CoreMenuTreeStorage {
 
@@ -24,7 +23,7 @@ class MenuTreeStorage extends CoreMenuTreeStorage {
   /**
    * {@inheritdoc}
    */
-  public function __construct(Connection $connection, CacheBackendInterface $menu_cache_backend, CacheTagsInvalidatorInterface $cache_tags_invalidator, $table, array $options = array()) {
+  public function __construct(Connection $connection, CacheBackendInterface $menu_cache_backend, CacheTagsInvalidatorInterface $cache_tags_invalidator, $table, array $options = []) {
     $this->connection = $connection;
     $this->cacheTagsInvalidator = $cache_tags_invalidator;
     $this->table = $table;
@@ -75,30 +74,8 @@ class MenuTreeStorage extends CoreMenuTreeStorage {
   /**
    * {@inheritdoc}
    */
-  protected function findParent($link, $original) {
-    if (isset($link['parent']) && !empty($link['parent']) && strpos($link['parent'], 'menu_link_content') === 0) {
-      list($type, $uuid, $id) = explode(':', $link['parent']);
-      if ($type === 'menu_link_content' && $uuid && is_numeric($id)) {
-        $storage = $this->entityTypeManager->getStorage('menu_link_content');
-        $parent = $storage->loadByProperties(['uuid' => $uuid]);
-        $parent = reset($parent);
-        if ($parent instanceof MenuLinkContent && $parent->id() && $parent->id() != $id) {
-          $link['parent'] = $type . ':' . $uuid . ':' . $parent->id();
-        }
-        elseif (!$parent) {
-          // Create a new menu link as stub.
-          $parent = $storage->create([
-            'uuid' => $uuid,
-            'link' => 'internal:/',
-          ]);
-          // Indicate that this revision is a stub.
-          $parent->_rev->is_stub = TRUE;
-          $parent->save();
-          $link['parent'] = $type . ':' . $uuid . ':' . $parent->id();
-        }
-      }
-    }
-    return parent::findParent($link, $original);
+  public function purgeMultiple(array $ids) {
+    parent::purgeMultiple($ids);
   }
 
 }
