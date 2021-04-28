@@ -28,11 +28,6 @@ class Showcase_1v1 extends ContentFormBase {
    */
   public function formAlter(&$form, FormStateInterface $form_state) {
     // TODO: Implement alter() method.
-    //$form['background']['#states'] = [
-    //  'visible' => [['select[name="showcase_1v1_style"]' => ['value' => 'style-v2']],
-    //    ['select[name="showcase_1v1_style"]' => ['value' => 'style-v4']],
-    //    ['select[name="showcase_1v1_style"]' => ['value' => 'style-v7']]],
-    //];
     $form['icon']['#states'] = [
       'visible' => ['select[name="showcase_1v1_title_style"]' => ['value' => 'style-v2']],
     ];
