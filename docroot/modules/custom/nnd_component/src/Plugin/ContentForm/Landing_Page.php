@@ -29,13 +29,13 @@ class Landing_Page extends ContentFormBase {
   public function formAlter(&$form, FormStateInterface $form_state) {
     // TODO: Implement alter() method.
     //$form['is_display_breadcrumb']['#states'] = [
-    //  'visible' => ['input[name="is_display_title[value]"]' => ['checked' => TRUE]],
+    //  'visible' => [':input[name="banner_style"]' => ['!value' => '_none']],
     //];
-    $form['banner_style']['#states'] = [
-      'visible' => ['input[name="is_display_title[value]"]' => ['checked' => TRUE]],
+    $form['is_display_title']['#states'] = [
+      'visible' => [':input[name="banner_style"]' => ['!value' => '_none']],
     ];
     $form['media']['#states'] = [
-      'visible' => ['input[name="is_display_title[value]"]' => ['checked' => TRUE]],
+      'visible' => [':input[name="banner_style"]' => ['!value' => '_none']],
     ];
   }
 }
