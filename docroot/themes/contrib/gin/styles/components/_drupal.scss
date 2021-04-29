@@ -1,0 +1,8 @@
+#panels-ipe-tray {
+  .ipe-category-picker-top {
+    &.active.form-displayed {
+      display: block;
+      height: 70vh;
+    }
+  }
+}
