@@ -54,13 +54,11 @@
   <!-- Logo -->
 
   <a href="{{ front_page }}" id="logo" class="logo" rel="home">
-      <span class="logo-mini">{{site_name|slice(0,2)}}</span>
-      {% if relative_logo_url %}
-      <span class="logo-lg"><img src="{{relative_logo_url}}" alt="Site Logo"></span>
-      {% else %}
-        {{site_name}}
-      {% endif %}
-
+      <span class="logo-mini">{{site_name|slice(0,1)}}</span>
+      <span class="logo-lg">
+        <b>{{site_name}}</b>
+        {{site_slogan}}
+      </span>
   </a>
   <!-- Header Navbar: style can be found in header.less -->
   <nav class="navbar navbar-static-top" role="navigation">
